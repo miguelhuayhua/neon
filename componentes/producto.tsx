@@ -9,6 +9,10 @@ import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
 import { Publicacion } from "@/types/main"
+import { toggleFavProduct } from "@/store/reducers/user"
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "@/store"
+import { some } from "lodash"
 interface ProductCardProps {
     publicacion: Publicacion
 }
@@ -16,10 +20,11 @@ interface ProductCardProps {
 export default function ProductCard({ publicacion }: ProductCardProps) {
     const [isHovered, setIsHovered] = useState(false)
     const [imageError, setImageError] = useState(false)
-    const [isFavorite, setIsFavorite] = useState(false)
 
     // Obtener la primera imagen ordenada
     const primaryImage = publicacion.imagenes.sort((a, b) => a.orden - b.orden)[0]
+    const { favProducts } = useSelector((state: RootState) => state.user)
+    const isFavourite = some(favProducts, (productId) => productId === publicacion.id)
 
     // Calcular rango de precios de las variantes activas
     const activeVariants = publicacion.variantes.filter((v) => v.estado)
@@ -39,15 +44,17 @@ export default function ProductCard({ publicacion }: ProductCardProps) {
         if (minPrice === maxPrice) return formatPrice(minPrice)
         return `${formatPrice(minPrice)} - ${formatPrice(maxPrice)}`
     }
+    const dispatch = useDispatch()
 
     const handleToggleFavorite = (e: React.MouseEvent) => {
         e.preventDefault()
         e.stopPropagation()
-        setIsFavorite(!isFavorite)
+        dispatch(toggleFavProduct({ id: publicacion.id }))
     }
 
+
     return (
-        <Link href={`/producto/${publicacion.url}`}>
+        <Link href={`/catalogo/${publicacion.id}`}>
             <Card
                 className="group relative overflow-hidden p-0 bg-gradient-to-br from-gray-900/50 to-black/50 border border-gray-800/50 hover:border-pink-500/50 transition-all duration-500 backdrop-blur-sm hover:shadow-2xl hover:shadow-pink-500/20 cursor-pointer"
                 onMouseEnter={() => setIsHovered(true)}
@@ -78,14 +85,13 @@ export default function ProductCard({ publicacion }: ProductCardProps) {
 
                         {/* Favorite button */}
                         <div
-                            className={`absolute top-3 right-3 transition-all duration-300 ${isHovered ? "opacity-100 translate-x-0" : "opacity-0 translate-x-4"
-                                }`}
+                            className={`absolute top-3 right-3 transition-all duration-300 `}
                         >
                             <button
                                 onClick={handleToggleFavorite}
                                 className="w-8 h-8 bg-black/50 backdrop-blur-sm hover:bg-pink-500/20 border border-pink-500/30 text-pink-300 hover:text-pink-200 rounded-md flex items-center justify-center transition-all duration-300 hover:scale-110"
                             >
-                                <Heart className={`w-4 h-4 ${isFavorite ? "fill-current text-pink-400" : ""}`} />
+                                <Heart className={`w-4 h-4 ${isFavourite ? "fill-current text-pink-400" : ""}`} />
                             </button>
                         </div>
 
