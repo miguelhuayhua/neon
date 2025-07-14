@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { Heart, ShoppingCart, Share2, Truck, Shield, RotateCcw, Star, ChevronRight } from "lucide-react"
+import { Heart, ShoppingCart, Share2, Truck, Shield, RotateCcw, Star, ChevronRight, Loader } from "lucide-react"
 import Link from "next/link"
 import { Publicacion, Variante } from "@/types/main"
 import Navbar from "@/componentes/navbar"
@@ -29,8 +29,7 @@ export default function ProductDetailPage() {
     useEffect(() => {
         const loadProduct = async () => {
             setLoading(true)
-            console.log('carga')
-            fetch(`https://uayua.com/uayua/api/publicaciones/get?id=${params.id}&fields=id,titulo,imagenes,colecciones,variantes,categorias,caracteristicas,variantes:valores,opciones,opciones:valores`, {
+            fetch(`https://uayua.com/uayua/api/publicaciones/get?id=${params.id}&fields=id,titulo,imagenes,subtitulo,colecciones,categorias,caracteristicas,variantes:valores,opciones,opciones:valores,opciones:id,variantes:id,variantes:titulo,variantes:estado,variantes:precio`, {
                 headers: {
                     Authorization: `Bearer ${process.env.NEXT_PUBLIC_UAYUA_TOKEN}`
                 }
@@ -67,39 +66,13 @@ export default function ProductDetailPage() {
         }
     }
 
-    if (loading) {
-        return (
-            <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900/20 to-pink-900/20">
-                <Navbar />
-                <div className="pt-20 flex items-center justify-center min-h-screen">
-                    <div className="text-center">
-                        <div className="w-16 h-16 border-4 border-pink-500/30 border-t-pink-500 rounded-full animate-spin mx-auto mb-4"></div>
-                        <p className="text-gray-300">Cargando producto...</p>
-                        <p className="text-sm text-gray-500 mt-2">ID: {params.id}</p>
-                    </div>
-                </div>
-            </div>
-        )
-    }
-
+    
     if (!product) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900/20 to-pink-900/20">
+            <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900/20 to-rose-900/20">
                 <Navbar />
                 <div className="pt-20 flex items-center justify-center min-h-screen">
-                    <div className="text-center max-w-md">
-                        <h1 className="text-2xl font-bold text-white mb-4">Producto no encontrado</h1>
-                        <p className="text-gray-400 mb-4">
-                            El producto con ID "<code className="bg-gray-800 px-2 py-1 rounded text-pink-300">{params.id}</code>" no
-                            existe.
-                        </p>
-
-                        <div className="space-y-3">
-                            <Button asChild className="bg-gradient-to-r from-pink-500 to-purple-500">
-                                <Link href="/ejemplos-productos">Ver productos disponibles</Link>
-                            </Button>
-                        </div>
-                    </div>
+                    <Loader className="animate-spin" />
                 </div>
                 <Footer />
             </div>
@@ -107,18 +80,18 @@ export default function ProductDetailPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900/20 to-pink-900/20">
+        <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900/20 to-rose-900/20">
             <Navbar />
 
             <main className="pt-20">
                 <div className="container mx-auto px-4 py-8">
                     {/* Breadcrumbs */}
                     <nav className="flex items-center space-x-2 text-sm text-gray-400 mb-8">
-                        <Link href="/" className="hover:text-pink-300 transition-colors">
+                        <Link href="/" className="hover:text-rose-300 transition-colors">
                             Inicio
                         </Link>
                         <ChevronRight className="w-4 h-4" />
-                        <Link href="/ejemplos-productos" className="hover:text-pink-300 transition-colors">
+                        <Link href="/ejemplos-productos" className="hover:text-rose-300 transition-colors">
                             Productos
                         </Link>
                         <ChevronRight className="w-4 h-4" />
@@ -159,7 +132,7 @@ export default function ProductDetailPage() {
                             {/* Categories */}
                             <div className="flex flex-wrap gap-2">
                                 {product.categorias.map(({ categoria }) => (
-                                    <Badge key={categoria.id} className="bg-pink-500/20 text-pink-400 border-pink-500/30">
+                                    <Badge key={categoria.id} className="bg-rose-500/20 text-rose-400 border-rose-500/30">
                                         {categoria.nombre}
                                     </Badge>
                                 ))}
@@ -181,7 +154,7 @@ export default function ProductDetailPage() {
                                             <Button
                                                 variant="outline"
                                                 size="sm"
-                                                className="w-8 h-8 p-0 border-gray-700 text-gray-300 hover:border-pink-500/50 bg-transparent"
+                                                className="w-8 h-8 p-0 border-gray-700 text-gray-300 hover:border-rose-500/50 bg-transparent"
                                                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
                                             >
                                                 -
@@ -190,7 +163,7 @@ export default function ProductDetailPage() {
                                             <Button
                                                 variant="outline"
                                                 size="sm"
-                                                className="w-8 h-8 p-0 border-gray-700 text-gray-300 hover:border-pink-500/50 bg-transparent"
+                                                className="w-8 h-8 p-0 border-gray-700 text-gray-300 hover:border-rose-500/50 bg-transparent"
                                                 onClick={() => setQuantity(quantity + 1)}
                                             >
                                                 +
@@ -203,7 +176,7 @@ export default function ProductDetailPage() {
                             {/* Action Buttons */}
                             <div className="space-y-3">
                                 <Button
-                                    className="w-full bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white text-lg py-6"
+                                    className="w-full bg-gradient-to-r from-rose-500 to-purple-500 hover:from-rose-600 hover:to-purple-600 text-white  "
                                   
                                     disabled={!selectedVariant || (!selectedVariant.estado && product.estado)}
                                 >
@@ -218,10 +191,10 @@ export default function ProductDetailPage() {
                                 <div className="flex gap-3">
                                     <Button
                                         variant="outline"
-                                        className="flex-1 border-gray-700 text-gray-300 hover:border-pink-500/50 hover:text-pink-300 bg-transparent"
+                                        className="flex-1 border-gray-700 text-gray-300 hover:border-rose-500/50 hover:text-rose-300 bg-transparent"
                                         onClick={() => setIsFavorite(!isFavorite)}
                                     >
-                                        <Heart className={`w-4 h-4 mr-2 ${isFavorite ? "fill-current text-pink-400" : ""}`} />
+                                        <Heart className={`w-4 h-4 mr-2 ${isFavorite ? "fill-current text-rose-400" : ""}`} />
                                         {isFavorite ? "En favoritos" : "Añadir a favoritos"}
                                     </Button>
                                     <Button

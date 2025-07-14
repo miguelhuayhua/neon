@@ -56,12 +56,12 @@ export default function ProductCard({ publicacion }: ProductCardProps) {
     return (
         <Link href={`/catalogo/${publicacion.id}`}>
             <Card
-                className="group relative overflow-hidden p-0 bg-gradient-to-br from-gray-900/50 to-black/50 border border-gray-800/50 hover:border-pink-500/50 transition-all duration-500 backdrop-blur-sm hover:shadow-2xl hover:shadow-pink-500/20 cursor-pointer"
+                className="group relative overflow-hidden p-0 bg-gradient-to-br from-gray-900/50 to-black/50 border border-gray-800/50 hover:border-rose-500/50 transition-all duration-500 backdrop-blur-sm hover:shadow-2xl hover:shadow-rose-500/20 cursor-pointer"
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
             >
                 {/* Glow effect on hover */}
-                <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-br from-rose-500/10 via-purple-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
                 <CardContent className="p-0">
                     {/* Image Section */}
@@ -89,9 +89,9 @@ export default function ProductCard({ publicacion }: ProductCardProps) {
                         >
                             <button
                                 onClick={handleToggleFavorite}
-                                className="w-8 h-8 bg-black/50 backdrop-blur-sm hover:bg-pink-500/20 border border-pink-500/30 text-pink-300 hover:text-pink-200 rounded-md flex items-center justify-center transition-all duration-300 hover:scale-110"
+                                className="w-8 h-8 bg-black/50 backdrop-blur-sm hover:bg-rose-500/20 border border-rose-500/30 text-rose-300 hover:text-rose-200 rounded-md flex items-center justify-center transition-all duration-300 hover:scale-110"
                             >
-                                <Heart className={`w-4 h-4 ${isFavourite ? "fill-current text-pink-400" : ""}`} />
+                                <Heart className={`w-4 h-4 ${isFavourite ? "fill-current text-rose-400" : ""}`} />
                             </button>
                         </div>
 
@@ -116,7 +116,7 @@ export default function ProductCard({ publicacion }: ProductCardProps) {
                                 {publicacion.categorias.slice(0, 2).map(({ categoria }) => (
                                     <Badge
                                         key={categoria.id}
-                                        className="bg-pink-500/10 text-pink-400 border-pink-500/20 text-xs px-2 py-0.5"
+                                        className="bg-rose-500/10 text-rose-400 border-rose-500/20 text-xs px-2 py-0.5"
                                     >
                                         {categoria.nombre}
                                     </Badge>
@@ -131,7 +131,7 @@ export default function ProductCard({ publicacion }: ProductCardProps) {
 
                         {/* Title and Subtitle */}
                         <div className="space-y-1">
-                            <h3 className="font-semibold text-white text-lg leading-tight group-hover:text-pink-300 transition-colors duration-300 line-clamp-2">
+                            <h3 className="font-semibold text-white text-lg leading-tight group-hover:text-rose-300 transition-colors duration-300 line-clamp-2">
                                 {publicacion.titulo}
                             </h3>
                             {publicacion.subtitulo && <p className="text-sm text-gray-400 line-clamp-1">{publicacion.subtitulo}</p>}
@@ -140,7 +140,7 @@ export default function ProductCard({ publicacion }: ProductCardProps) {
                         {/* Price */}
                         <div className="flex items-center justify-between">
                             <div className="space-y-1">
-                                <p className="text-xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                                <p className="text-xl font-bold bg-gradient-to-r from-rose-400 to-purple-400 bg-clip-text text-transparent">
                                     {getPriceDisplay()}
                                 </p>
                                 {activeVariants.length > 1 && (

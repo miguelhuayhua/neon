@@ -61,7 +61,7 @@ export default function CatalogoPage() {
         {/* Breadcrumb */}
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center space-x-2 text-sm text-gray-400">
-            <Link href="/" className="hover:text-pink-400 transition-colors">
+            <Link href="/" className="hover:text-rose-400 transition-colors">
               Inicio
             </Link>
             <span>/</span>
@@ -101,7 +101,7 @@ export default function CatalogoPage() {
                     <TabsTrigger
                       key={categoria}
                       value={categoria}
-                      className="data-[state=active]:bg-pink-500 data-[state=active]:text-white text-xs font-medium"
+                      className="data-[state=active]:bg-rose-500 data-[state=active]:text-white text-xs font-medium"
                     >
                       {categoria}
                     </TabsTrigger>
@@ -129,7 +129,7 @@ export default function CatalogoPage() {
                   variant={vistaGrid ? "default" : "ghost"}
                   size="sm"
                   onClick={() => setVistaGrid(true)}
-                  className="bg-gray-800 hover:bg-pink-500"
+                  className="bg-gray-800 hover:bg-rose-500"
                 >
                   <Grid3X3 className="w-4 h-4" />
                 </Button>
@@ -137,7 +137,7 @@ export default function CatalogoPage() {
                   variant={!vistaGrid ? "default" : "ghost"}
                   size="sm"
                   onClick={() => setVistaGrid(false)}
-                  className="bg-gray-800 hover:bg-pink-500"
+                  className="bg-gray-800 hover:bg-rose-500"
                 >
                   <List className="w-4 h-4" />
                 </Button>
@@ -148,7 +148,7 @@ export default function CatalogoPage() {
                 variant="ghost"
                 size="sm"
                 onClick={() => setMostrarFiltros(!mostrarFiltros)}
-                className="bg-gray-800 hover:bg-pink-500"
+                className="bg-gray-800 hover:bg-rose-500"
               >
                 <SlidersHorizontal className="w-4 h-4 mr-2" />
                 Filtros
@@ -248,7 +248,7 @@ export default function CatalogoPage() {
                   setRangoPrecios([0, 500])
                   setFiltroCalificacion(0)
                 }}
-                className="bg-pink-500 hover:bg-pink-600"
+                className="bg-rose-500 hover:bg-rose-600"
               >
                 Limpiar Filtros
               </Button>

@@ -258,7 +258,7 @@ export default function HomePage() {
                   <CardContent className="p-4">
                     <div className="flex items-center mb-3">
                       <Avatar className="mr-2 w-8 h-8">
-                        <AvatarFallback className="bg-pink-500 text-white text-xs font-semibold">
+                        <AvatarFallback className="bg-rose-500 text-white text-xs font-semibold">
                           {testimonio.avatar}
                         </AvatarFallback>
                       </Avatar>
@@ -278,7 +278,7 @@ export default function HomePage() {
                       "{testimonio.texto}"
                     </p>
 
-                    <Badge variant="outline" className="text-xs border-pink-500/30 text-pink-400 font-medium">
+                    <Badge variant="outline" className="text-xs border-rose-500/30 text-rose-400 font-medium">
                       Compra Verificada: {testimonio.producto}
                     </Badge>
                   </CardContent>
@@ -293,7 +293,7 @@ export default function HomePage() {
           <div className="container mx-auto px-4">
             <div className="grid md:grid-cols-4 gap-6 text-center">
               {[
-                { numero: "10.000+", etiqueta: "Clientes Satisfechos", color: "pink" },
+                { numero: "10.000+", etiqueta: "Clientes Satisfechos", color: "rose" },
                 { numero: "50.000+", etiqueta: "Productos Vendidos", color: "purple" },
                 { numero: "99.9%", etiqueta: "Tasa de Satisfacción", color: "blue" },
                 { numero: "24/7", etiqueta: "Soporte al Cliente", color: "green" },
@@ -331,11 +331,11 @@ export default function HomePage() {
                     ].map((item, i) => (
                       <Card
                         key={i}
-                        className={`bg-gray-800 border-gray-700 p-3 hover:border-pink-400 transition-all duration-300 animate-fade-in-left`}
+                        className={`bg-gray-800 border-gray-700 p-3 hover:border-rose-400 transition-all duration-300 animate-fade-in-left`}
                         style={{ animationDelay: `${i * 0.1}s` }}
                       >
                         <div className="flex items-center">
-                          <item.icon className="w-4 h-4 text-pink-400 mr-2" />
+                          <item.icon className="w-4 h-4 text-rose-400 mr-2" />
                           <div>
                             <p className="text-xs text-gray-400 font-medium">{item.etiqueta}</p>
                             <p className="text-sm font-semibold">{item.texto}</p>
@@ -369,7 +369,7 @@ export default function HomePage() {
                         rows={3}
                         className="bg-gray-700 border-gray-600 text-sm font-medium"
                       />
-                      <Button className="w-full bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-sm font-medium">
+                      <Button className="w-full bg-gradient-to-r from-rose-500 to-purple-500 hover:from-rose-600 hover:to-purple-600 text-sm font-medium">
                         Enviar Mensaje
                       </Button>
                     </form>

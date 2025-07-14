@@ -26,20 +26,20 @@ export default function HeroSection() {
           priority
         />
         {/* Multiple overlay layers for depth */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-purple-900/60 to-pink-900/70"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-purple-900/60 to-rose-900/70"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/40"></div>
       </div>
 
       {/* Animated Background Effects */}
       <div className="absolute inset-0 z-10">
         {/* Floating particles */}
-        <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-pink-400 rounded-full animate-pulse opacity-60"></div>
+        <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-rose-400 rounded-full animate-pulse opacity-60"></div>
         <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-blue-400 rounded-full animate-ping opacity-40"></div>
         <div className="absolute bottom-1/4 left-1/3 w-3 h-3 bg-purple-400 rounded-full animate-bounce opacity-50"></div>
 
         {/* Neon glow effects */}
         <div className="absolute top-0 left-0 w-full h-full">
-          <div className="absolute top-1/4 left-0 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute top-1/4 left-0 w-96 h-96 bg-rose-500/20 rounded-full blur-3xl animate-pulse"></div>
           <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
         </div>
       </div>
@@ -53,7 +53,7 @@ export default function HeroSection() {
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}
           >
-            <Badge className="bg-gradient-to-r from-pink-500/30 to-purple-500/30 text-pink-300 border border-pink-400/50 backdrop-blur-sm px-4 py-2 text-sm font-medium shadow-lg shadow-pink-500/25">
+            <Badge className="bg-gradient-to-r from-rose-500/30 to-purple-500/30 text-rose-300 border border-rose-400/50 backdrop-blur-sm px-4 py-2 text-sm font-medium shadow-lg shadow-rose-500/25">
               <Zap className="w-4 h-4 mr-2" />
               Luces LED Neón Variados
             </Badge>
@@ -65,7 +65,7 @@ export default function HeroSection() {
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}
           >
-            <span className="bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 bg-clip-text text-transparent animate-gradient-x">
+            <span className="bg-gradient-to-r from-rose-400 via-purple-400 to-blue-400 bg-clip-text text-transparent animate-gradient-x">
               ILUMINA
             </span>
             <br />
@@ -79,7 +79,7 @@ export default function HeroSection() {
             }`}
           >
             Descubre nuestra colección de luces led y neónes exclusivos para la decoración del hogar, tenemos todo para{" "}
-            <span className="text-pink-400 font-semibold">iluminar tu espacio</span>.
+            <span className="text-rose-400 font-semibold">iluminar tu espacio</span>.
           </p>
 
           {/* Buttons */}
@@ -89,7 +89,7 @@ export default function HeroSection() {
             }`}
           >
             <Button
-              className="bg-gradient-to-r from-pink-500 to-purple-600 hover:bg-white/20 text-white shadow-lg hover:shadow-purple-800/20  transition-all duration-300 group px-8 py-3 font-semibold"
+              className="bg-gradient-to-r from-rose-500 to-purple-600 hover:bg-white/20 text-white shadow-lg hover:shadow-purple-800/20  transition-all duration-300 group px-8 py-3 font-semibold"
               asChild
             >
               <Link href="/catalogo">
@@ -99,7 +99,7 @@ export default function HeroSection() {
             </Button>
             <Button
               variant="outline"
-              className="text-pink-300  hover:text-pink-200 bg-black/30 backdrop-blur-sm transition-all duration-300 px-8 py-3  font-semibold "
+              className="text-rose-300  hover:text-rose-200 bg-black/30 backdrop-blur-sm transition-all duration-300 px-8 py-3  font-semibold "
             >
               <Sparkles className="size-4" />
               Contactarnos
@@ -111,8 +111,8 @@ export default function HeroSection() {
       {/* Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
         <div className="animate-bounce">
-          <div className="w-6 h-10 border-2 border-pink-400/50 rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-pink-400 rounded-full mt-2 animate-pulse"></div>
+          <div className="w-6 h-10 border-2 border-rose-400/50 rounded-full flex justify-center">
+            <div className="w-1 h-3 bg-rose-400 rounded-full mt-2 animate-pulse"></div>
           </div>
         </div>
       </div>

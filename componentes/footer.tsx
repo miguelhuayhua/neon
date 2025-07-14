@@ -12,10 +12,10 @@ export default function Footer() {
                 <div className="grid md:grid-cols-4 gap-6">
                     <div className="animate-fade-in-up">
                         <div className="flex items-center space-x-2 mb-3">
-                            <div className="w-8 h-8 bg-gradient-to-r from-pink-500 to-purple-500 rounded-lg flex items-center justify-center">
+                            <div className="w-8 h-8 bg-gradient-to-r from-rose-500 to-purple-500 rounded-lg flex items-center justify-center">
                                 <Zap className="w-5 h-5 text-white" />
                             </div>
-                            <span className="text-lg font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                            <span className="text-lg font-bold bg-gradient-to-r from-rose-400 to-purple-400 bg-clip-text text-transparent">
                                 Neón sets
                             </span>
                         </div>
@@ -28,7 +28,7 @@ export default function Footer() {
                                     key={social}
                                     size="sm"
                                     variant="outline"
-                                    className="border-gray-700 bg-transparent hover:border-pink-400 text-xs font-medium"
+                                    className="border-gray-700 bg-transparent hover:border-rose-400 text-xs font-medium"
                                 >
                                     {social}
                                 </Button>
@@ -56,7 +56,7 @@ export default function Footer() {
                                     <li key={j}>
                                         <Link
                                             href="#"
-                                            className="hover:text-pink-400 transition-colors duration-300 text-sm font-medium"
+                                            className="hover:text-rose-400 transition-colors duration-300 text-sm font-medium"
                                         >
                                             {enlace}
                                         </Link>

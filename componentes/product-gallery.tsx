@@ -98,7 +98,7 @@ export default function ProductGallery({ imagenes, productTitle }: ProductGaller
                             key={imagen.id}
                             onClick={() => setCurrentImageIndex(index)}
                             className={`relative flex-shrink-0 w-16 h-16 rounded-md overflow-hidden border-2 transition-all duration-300 ${index === currentImageIndex
-                                    ? "border-pink-500 shadow-lg shadow-pink-500/30"
+                                    ? "border-rose-500 shadow-lg shadow-rose-500/30"
                                     : "border-gray-700 hover:border-gray-600"
                                 }`}
                         >

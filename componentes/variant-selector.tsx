@@ -31,7 +31,7 @@ export default function VariantSelector({ opciones, variantes, onVariantChange }
         const selectedValue = selectedOptions[opcion.id]
         if (!selectedValue) return false
 
-        return variante.valores.some((varianteValor) => varianteValor.valorOpcion.id === selectedValue)
+        return variante.valores.some((varianteValor) => varianteValor.valorOpcionId === selectedValue)
       })
     })
 
@@ -40,14 +40,15 @@ export default function VariantSelector({ opciones, variantes, onVariantChange }
   }, [selectedOptions, opciones, variantes, onVariantChange])
 
   const handleOptionChange = (opcionId: string, valorId: string) => {
-    setSelectedOptions((prev) => ({
+    setSelectedOptions((prev) => {
+      return ({
       ...prev,
       [opcionId]: valorId,
-    }))
+    })
+    })
   }
-
   // Si no hay opciones, mostrar solo las variantes directamente
-  if (opciones.length === 0) {
+  if (opciones.length == 0) {
     return (
       <Card className="bg-gradient-to-br from-gray-900/50 to-black/50 border border-gray-800/50">
         <CardContent className="p-4">
@@ -57,11 +58,10 @@ export default function VariantSelector({ opciones, variantes, onVariantChange }
               <Button
                 key={variante.id}
                 variant={selectedVariant?.id === variante.id ? "default" : "outline"}
-                className={`w-full justify-between ${
-                  selectedVariant?.id === variante.id
+                className={`w-full justify-between ${selectedVariant?.id === variante.id
                     ? "bg-gradient-to-r from-pink-500 to-purple-500 text-white"
                     : "border-gray-700 text-gray-300 hover:border-pink-500/50 hover:text-pink-300"
-                } ${!variante.estado ? "opacity-50 cursor-not-allowed" : ""}`}
+                  } ${!variante.estado ? "opacity-50 cursor-not-allowed" : ""}`}
                 onClick={() => {
                   if (variante.estado) {
                     setSelectedVariant(variante)
@@ -82,7 +82,6 @@ export default function VariantSelector({ opciones, variantes, onVariantChange }
       </Card>
     )
   }
-
   return (
     <Card className="bg-gradient-to-br from-gray-900/50 to-black/50 border border-gray-800/50">
       <CardContent className="p-4 space-y-4">
@@ -93,7 +92,7 @@ export default function VariantSelector({ opciones, variantes, onVariantChange }
               {opcion.valores.map((valor) => {
                 const isSelected = selectedOptions[opcion.id] === valor.id
                 const isAvailable = variantes.some((variante) =>
-                  variante.valores.some((vv) => vv.valorOpcion.id === valor.id && variante.estado),
+                  variante.valores.some((vv) => vv.valorOpcionId === valor.id && variante.estado),
                 )
 
                 return (
@@ -101,15 +100,14 @@ export default function VariantSelector({ opciones, variantes, onVariantChange }
                     key={valor.id}
                     variant={isSelected ? "default" : "outline"}
                     size="sm"
-                    className={`${
-                      isSelected
+                    className={`${isSelected
                         ? "bg-gradient-to-r from-pink-500 to-purple-500 text-white border-0"
                         : "border-gray-700 text-gray-300 hover:border-pink-500/50 hover:text-pink-300"
-                    } ${!isAvailable ? "opacity-50 cursor-not-allowed" : ""}`}
-                    onClick={() => isAvailable && handleOptionChange(opcion.id, valor.id)}
+                      } capitalize ${!isAvailable ? "opacity-50 cursor-not-allowed" : ""}`}
+                    onClick={() => isAvailable && handleOptionChange(opcion.id,valor.id)}
                     disabled={!isAvailable}
                   >
-                    {valor.valor}
+                    {valor.valor} 
                   </Button>
                 )
               })}
@@ -127,7 +125,7 @@ export default function VariantSelector({ opciones, variantes, onVariantChange }
               </div>
               <div className="text-right">
                 <p className="text-2xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
-                  €{selectedVariant.precio.toFixed(2)}
+                  Bs. {selectedVariant.precio.toFixed(2)}
                 </p>
               </div>
             </div>

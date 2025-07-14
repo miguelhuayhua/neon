@@ -26,6 +26,7 @@ export type Caracteristica = {
 export type VarianteValor = {
   id: string;
   valorOpcion: ValorOpcion;
+  valorOpcionId: string;
 };
 
 export type Variante = {
