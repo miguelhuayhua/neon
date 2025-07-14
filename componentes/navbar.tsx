@@ -110,7 +110,7 @@ export default function Navbar() {
             <div className="flex flex-col space-y-3">
               {[
                 { name: "Productos", href: "#productos" },
-                { name: "Personalizado", href: "#personalizado" },
+              
                 { name: "Nosotros", href: "#nosotros" },
                 { name: "Contacto", href: "#contacto" },
               ].map((item, i) => (

@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Luz Pura",
+  title: "Neö",
   description: "Tienda de productos de cinta neón y LED",
 };
 

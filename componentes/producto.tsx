@@ -131,7 +131,7 @@ export default function ProductCard({ publicacion }: ProductCardProps) {
 
                         {/* Title and Subtitle */}
                         <div className="space-y-1">
-                            <h3 className="font-semibold text-white text-lg leading-tight group-hover:text-rose-300 transition-colors duration-300 line-clamp-2">
+                            <h3 className=" text-white text-lg leading-tight font-light group-hover:text-rose-300 transition-colors duration-300 line-clamp-2">
                                 {publicacion.titulo}
                             </h3>
                             {publicacion.subtitulo && <p className="text-sm text-gray-400 line-clamp-1">{publicacion.subtitulo}</p>}
@@ -140,7 +140,7 @@ export default function ProductCard({ publicacion }: ProductCardProps) {
                         {/* Price */}
                         <div className="flex items-center justify-between">
                             <div className="space-y-1">
-                                <p className="text-xl font-bold bg-gradient-to-r from-rose-400 to-purple-400 bg-clip-text text-transparent">
+                                <p className="font-bold ">
                                     {getPriceDisplay()}
                                 </p>
                                 {activeVariants.length > 1 && (
@@ -158,7 +158,7 @@ export default function ProductCard({ publicacion }: ProductCardProps) {
                                     {publicacion.caracteristicas.slice(0, 3).map((caracteristica) => (
                                         <span
                                             key={caracteristica.id}
-                                            className="text-xs text-gray-400 bg-gray-800/50 px-2 py-1 rounded-full"
+                                            className="text-xs capitalize text-gray-400 bg-gray-800/50 px-2 py-1 rounded-sm"
                                         >
                                             {caracteristica.nombre}: {caracteristica.valor}
                                         </span>
