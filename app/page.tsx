@@ -16,8 +16,6 @@ import {
   Shield,
   Award,
 } from "lucide-react"
-import Image from "next/image"
-import Link from "next/link"
 import { useEffect, useState } from "react"
 
 import { Button } from "@/components/ui/button"
@@ -25,7 +23,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Progress } from "@/components/ui/progress"
@@ -33,70 +30,15 @@ import Producto from "@/componentes/producto"
 import Navbar from "@/componentes/navbar"
 import Footer from "@/componentes/footer"
 import HeroSection from "@/componentes/hero"
-
-const productos = [
-  {
-    id: 1,
-    nombre: "Letrero Comercial Personalizado",
-    precio: "€299",
-    precioOriginal: "€399",
-    imagen: "/placeholder.svg?height=300&width=300",
-    categoria: "Comercial",
-    calificacion: 4.9,
-    resenas: 127,
-    caracteristicas: ["Diseño Personalizado", "Resistente al Agua", "Control Remoto", "Garantía 2 Años"],
-    colores: ["Rosa", "Azul", "Verde", "Blanco", "Rojo"],
-    masVendido: true,
-  },
-  {
-    id: 2,
-    nombre: "Tira LED Neón Flexible",
-    precio: "€89",
-    precioOriginal: "€129",
-    imagen: "/placeholder.svg?height=300&width=300",
-    categoria: "Hogar",
-    calificacion: 4.7,
-    resenas: 89,
-    caracteristicas: ["5m de Longitud", "Control por App", "Sincronización Musical", "Fácil Instalación"],
-    colores: ["RGB", "Blanco Cálido", "Blanco Frío"],
-    oferta: true,
-  },
-  {
-    id: 3,
-    nombre: "Letrero Neón 'Abierto'",
-    precio: "€149",
-    precioOriginal: null,
-    imagen: "/placeholder.svg?height=300&width=300",
-    categoria: "Comercial",
-    calificacion: 4.8,
-    resenas: 203,
-    caracteristicas: ["Listo para Usar", "Bajo Consumo", "Pantalla Brillante", "Montaje Fácil"],
-    colores: ["Rojo/Azul", "Verde/Rojo", "Azul/Blanco"],
-    popular: true,
-  },
-  {
-    id: 4,
-    nombre: "Neón Gaming RGB",
-    precio: "€199",
-    precioOriginal: "€249",
-    imagen: "/placeholder.svg?height=300&width=300",
-    categoria: "Gaming",
-    calificacion: 4.9,
-    resenas: 156,
-    caracteristicas: ["Temas Gaming", "Reactivo al Sonido", "Múltiples Efectos", "Alimentación USB"],
-    colores: ["RGB", "Púrpura", "Cian", "Naranja"],
-    nuevo: true,
-  },
-]
+import { Publicacion } from "@/types/main"
 
 const categorias = ["Todos", "Comercial", "Hogar", "Gaming", "Personalizado"]
 
 export default function HomePage() {
   const [isVisible, setIsVisible] = useState(false)
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("Todos")
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState<Publicacion[]>([]);
   useEffect(() => {
-
     setIsVisible(true)
     fetch('https://uayua.com/uayua/api/publicaciones/getall?fields=titulo,imagenes,caracteristicas,variantes,colecciones,categorias', {
       method: "GET",
@@ -105,12 +47,6 @@ export default function HomePage() {
       }
     }).then(res => res.json()).then(setItems)
   }, [])
-
-
-  const productosFiltrados =
-    categoriaSeleccionada === "Todos"
-      ? productos
-      : productos.filter((producto) => producto.categoria === categoriaSeleccionada)
 
   return (
     <div className="min-h-screen bg-gray-950 text-white relative font-inter">

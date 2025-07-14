@@ -148,11 +148,7 @@ export default function ProductCard({ publicacion }: ProductCardProps) {
                                 )}
                             </div>
 
-                            {/* Rating placeholder */}
-                            <div className="flex items-center gap-1">
-                                <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                                <span className="text-sm text-gray-400">4.8</span>
-                            </div>
+
                         </div>
 
                         {/* Key Features */}

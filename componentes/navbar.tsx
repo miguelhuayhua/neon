@@ -45,7 +45,7 @@ export default function Navbar() {
               <div className="absolute inset-0 bg-gradient-to-br from-rose-500 via-purple-500 to-blue-500 rounded-xl blur-md opacity-30 group-hover:opacity-50 transition-opacity duration-300 -z-10"></div>
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-rose-400 via-purple-400 to-blue-400 bg-clip-text text-transparent group-hover:from-rose-300 group-hover:via-purple-300 group-hover:to-blue-300 transition-all duration-300">
-              LuzPura
+               NEÖ
             </span>
           </Link>
 
@@ -78,9 +78,13 @@ export default function Navbar() {
             <Button
               variant="ghost"
               size="sm"
+              asChild
               className="relative  text-gray-300 hover:text-rose-300 transition-all duration-300 "
             >
-              <Heart className="size-5" />
+              <Link href="/favoritos">
+                <Heart className="size-5" />
+                {/* Wishlist count */}
+              </Link>
             </Button>
 
         

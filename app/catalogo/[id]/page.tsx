@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useParams } from "next/navigation"
-
+import { Phone } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -18,24 +18,32 @@ import VariantSelector from "@/componentes/variant-selector"
 
 
 export default function ProductDetailPage() {
+
     const params = useParams()
+    if (!params.id) return
+
     const [product, setProduct] = useState<Publicacion | null>(null)
     const [selectedVariant, setSelectedVariant] = useState<Variante | null>(null)
     const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({})
     const [isFavorite, setIsFavorite] = useState(false)
     const [quantity, setQuantity] = useState(1)
     const [loading, setLoading] = useState(true)
-
     useEffect(() => {
         const loadProduct = async () => {
             setLoading(true)
-            fetch(`https://uayua.com/uayua/api/publicaciones/get?id=${params.id}&fields=id,titulo,imagenes,subtitulo,colecciones,categorias,caracteristicas,variantes:valores,opciones,opciones:valores,opciones:id,variantes:id,variantes:titulo,variantes:estado,variantes:precio`, {
-                headers: {
-                    Authorization: `Bearer ${process.env.NEXT_PUBLIC_UAYUA_TOKEN}`
-                }
-            }).then(res=>res.json()).then(setProduct)
-
-            setLoading(false)
+            try {
+                const res = await fetch(`https://uayua.com/uayua/api/publicaciones/get?id=${params.id}&fields=id,titulo,imagenes,subtitulo,colecciones,categorias,caracteristicas,variantes:valores,opciones,opciones:valores,opciones:id,variantes:id,variantes:titulo,variantes:estado,variantes:precio`, {
+                    headers: {
+                        Authorization: `Bearer ${process.env.NEXT_PUBLIC_UAYUA_TOKEN}`
+                    }
+                })
+                const data = await res.json()
+                setProduct(data)
+            } catch (err) {
+                console.error("Error cargando el producto", err)
+            } finally {
+                setLoading(false)
+            }
         }
 
         if (params.id) {
@@ -66,7 +74,7 @@ export default function ProductDetailPage() {
         }
     }
 
-    
+
     if (!product) {
         return (
             <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900/20 to-rose-900/20">
@@ -118,15 +126,7 @@ export default function ProductDetailPage() {
                                 <h1 className="text-3xl font-bold text-white mb-2">{product.titulo}</h1>
                                 <p className="text-lg text-gray-300">{product.subtitulo}</p>
 
-                                {/* Rating */}
-                                <div className="flex items-center gap-2 mt-3">
-                                    <div className="flex items-center">
-                                        {[...Array(5)].map((_, i) => (
-                                            <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
-                                        ))}
-                                    </div>
-                                    <span className="text-sm text-gray-400">(4.8) • 127 reseñas</span>
-                                </div>
+                                
                             </div>
 
                             {/* Categories */}
@@ -145,47 +145,19 @@ export default function ProductDetailPage() {
                                 onVariantChange={handleVariantChange}
                             />
 
-                            {/* Quantity Selector */}
-                            <Card className="bg-gradient-to-br from-gray-900/50 to-black/50 border border-gray-800/50">
-                                <CardContent className="p-4">
-                                    <div className="flex items-center justify-between">
-                                        <label className="text-white font-medium">Cantidad</label>
-                                        <div className="flex items-center gap-3">
-                                            <Button
-                                                variant="outline"
-                                                size="sm"
-                                                className="w-8 h-8 p-0 border-gray-700 text-gray-300 hover:border-rose-500/50 bg-transparent"
-                                                onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                                            >
-                                                -
-                                            </Button>
-                                            <span className="text-white font-medium w-8 text-center">{quantity}</span>
-                                            <Button
-                                                variant="outline"
-                                                size="sm"
-                                                className="w-8 h-8 p-0 border-gray-700 text-gray-300 hover:border-rose-500/50 bg-transparent"
-                                                onClick={() => setQuantity(quantity + 1)}
-                                            >
-                                                +
-                                            </Button>
-                                        </div>
-                                    </div>
-                                </CardContent>
-                            </Card>
-
                             {/* Action Buttons */}
                             <div className="space-y-3">
                                 <Button
-                                    className="w-full bg-gradient-to-r from-rose-500 to-purple-500 hover:from-rose-600 hover:to-purple-600 text-white  "
-                                  
-                                    disabled={!selectedVariant || (!selectedVariant.estado && product.estado)}
+                                    asChild
+                                    className="w-full  text-white  "
+                                    variant="default"
+                                    disabled={(!!selectedVariant && product.variantes.length > 1) || (product.estado)}
                                 >
-                                    <ShoppingCart className="w-5 h-5 mr-2" />
-                                    {!product.estado
-                                        ? "Producto agotado"
-                                        : selectedVariant
-                                            ? `Añadir al carrito - €${(selectedVariant.precio * quantity).toFixed(2)}`
+                                    <Link href={`https://wa.me/59169848691?text=Hola, estoy interesado en el producto: ${product.titulo} - ${window.location.href}`} target="_blank">
+                                        <Phone className="size-4" />
+                                        {!product.estado ? "Solicitar compra"
                                             : "Selecciona una variante"}
+                                    </Link>
                                 </Button>
 
                                 <div className="flex gap-3">
@@ -243,8 +215,8 @@ export default function ProductDetailPage() {
                                     {product.caracteristicas.map((caracteristica, index) => (
                                         <div key={caracteristica.id}>
                                             <div className="flex justify-between items-center py-2">
-                                                <span className="text-gray-400">{caracteristica.nombre}</span>
-                                                <span className="text-white font-medium">{caracteristica.valor}</span>
+                                                <span className="text-gray-400 capitalize">{caracteristica.nombre}</span>
+                                                <span className="text-white capitalize font-medium">{caracteristica.valor}</span>
                                             </div>
                                             {index < product.caracteristicas.length - 1 && <Separator className="bg-gray-700" />}
                                         </div>
