@@ -89,7 +89,7 @@ export default function ProductCard({ publicacion }: ProductCardProps) {
                         >
                             <button
                                 onClick={handleToggleFavorite}
-                                className="w-8 h-8 bg-black/50 backdrop-blur-sm hover:bg-rose-500/20 border border-rose-500/30 text-rose-300 hover:text-rose-200 rounded-md flex items-center justify-center transition-all duration-300 hover:scale-110"
+                                className="w-8 h-8 bg-black/80 backdrop-blur-sm hover:bg-rose-500/20  text-rose-300 hover:text-rose-200 rounded-md flex items-center justify-center transition-all duration-300 hover:scale-110"
                             >
                                 <Heart className={`w-4 h-4 ${isFavourite ? "fill-current text-rose-400" : ""}`} />
                             </button>

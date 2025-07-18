@@ -16,31 +16,43 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import Producto from "@/componentes/producto"
+
+import dynamic from "next/dynamic"
+const Producto = dynamic(() => import("@/componentes/producto"), {
+  ssr: false,
+  loading: () => <div className="animate-pulse bg-gray-800 h-64 rounded-lg"></div>,
+});
 import Navbar from "@/componentes/navbar"
 import Footer from "@/componentes/footer"
 import HeroSection from "@/componentes/hero"
 import { Publicacion } from "@/types/main"
 import Testimonials from "@/componentes/testimonios"
 
-const categorias = ["Todos", "Comercial", "Hogar", "Gaming", "Personalizado"]
 
 export default function HomePage() {
   const [isVisible, setIsVisible] = useState(false)
-  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("Todos")
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("Todos");
+  const [categorias, setCategorias] = useState<string[]>(["Todos"]);
   const [items, setItems] = useState<Publicacion[]>([]);
+
   useEffect(() => {
     setIsVisible(true)
-    fetch('https://uayua.com/uayua/api/publicaciones/getall?fields=titulo,imagenes,caracteristicas,variantes,colecciones,categorias', {
+    fetch('https://uayua.com/uayua/api/publicaciones/getall?fields=titulo,imagenes,caracteristicas,estado,variantes,colecciones,categorias', {
       method: "GET",
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_UAYUA_TOKEN}`
       }
     }).then(res => res.json()).then(setItems)
   }, [])
-
+  useEffect(() => {
+    fetch('https://uayua.com/uayua/api/categorias/getall?fields=nombre,id', {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_UAYUA_TOKEN}`
+      }
+    }).then(res => res.json()).then(data=>[...data, "todos"])
+  }, [])
   return (
     <div className="min-h-screen bg-gray-950 text-white relative font-inter">
       <Navbar />
@@ -64,8 +76,10 @@ export default function HomePage() {
             </div>
 
             {/* Category Filter */}
-            <Tabs value={categoriaSeleccionada} onValueChange={setCategoriaSeleccionada} className="mb-10">
-              <TabsList className="grid w-full max-w-md mx-auto grid-cols-5 bg-gray-800 border-gray-700">
+            <Tabs value={categoriaSeleccionada} onValueChange={(value) => {
+              setCategoriaSeleccionada(value);
+            }} className="mb-10">
+              <TabsList className="flex w-full mx-auto gap-x-5 gap-y-1 p-2 h-fit flex-wrap">
                 {categorias.map((categoria) => (
                   <TabsTrigger
                     key={categoria}

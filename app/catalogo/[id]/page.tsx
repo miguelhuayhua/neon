@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useParams } from "next/navigation"
-import { Phone } from "lucide-react"
+import { Handshake, Phone } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -32,7 +32,7 @@ export default function ProductDetailPage() {
         const loadProduct = async () => {
             setLoading(true)
             try {
-                const res = await fetch(`https://uayua.com/uayua/api/publicaciones/get?id=${params.id}&fields=id,titulo,imagenes,subtitulo,colecciones,categorias,caracteristicas,variantes:valores,opciones,opciones:valores,opciones:id,variantes:id,variantes:titulo,variantes:estado,variantes:precio`, {
+                const res = await fetch(`https://uayua.com/uayua/api/publicaciones/get?id=${params.id}&fields=id,titulo,imagenes,subtitulo,colecciones,categorias,caracteristicas,estado,variantes:valores,opciones,opciones:valores,opciones:id,variantes:id,variantes:titulo,variantes:estado,variantes:precio,descripcion`, {
                     headers: {
                         Authorization: `Bearer ${process.env.NEXT_PUBLIC_UAYUA_TOKEN}`
                     }
@@ -105,7 +105,7 @@ export default function ProductDetailPage() {
                         <ChevronRight className="w-4 h-4" />
                         <span className="text-gray-300">{product.titulo}</span>
                     </nav>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-6">
                         {/* Product Gallery */}
                         <div>
                             <ProductGallery imagenes={product.imagenes} productTitle={product.titulo} />
@@ -126,7 +126,7 @@ export default function ProductDetailPage() {
                                 <h1 className="text-3xl font-bold text-white mb-2">{product.titulo}</h1>
                                 <p className="text-lg text-gray-300">{product.subtitulo}</p>
 
-                                
+
                             </div>
 
                             {/* Categories */}
@@ -179,20 +179,28 @@ export default function ProductDetailPage() {
                                 </div>
                             </div>
 
-                            {/* Features */}
-                            <div className="grid grid-cols-3 gap-4">
-                                <div className="text-center p-3 rounded-lg bg-gray-800/30 border border-gray-700/50">
-                                    <Truck className="w-5 h-5 text-green-400 mx-auto mb-1" />
-                                    <p className="text-xs text-gray-300">Envío gratis</p>
-                                </div>
-                                <div className="text-center p-3 rounded-lg bg-gray-800/30 border border-gray-700/50">
-                                    <Shield className="w-5 h-5 text-blue-400 mx-auto mb-1" />
-                                    <p className="text-xs text-gray-300">2 años garantía</p>
-                                </div>
-                                <div className="text-center p-3 rounded-lg bg-gray-800/30 border border-gray-700/50">
-                                    <RotateCcw className="w-5 h-5 text-purple-400 mx-auto mb-1" />
-                                    <p className="text-xs text-gray-300">30 días devolución</p>
-                                </div>
+                            <div className="grid grid-cols-3 gap-4 max-w-md w-full mx-auto">
+                                <Card className="bg-transparent  text-center hover:border-pink-400 transition-all duration-500 hover:scale-105 group animate-slide-in-up">
+                                    <CardContent >
+                                        <ShoppingCart className="w-8 h-8 mx-auto mb-3 text-pink-400 group-hover:animate-bounce" />
+                                        <h3 className="text-sm font-semibold mb-2">Tienda Online 24/7</h3>
+                                       
+                                    </CardContent>
+                                </Card>
+                                <Card className="bg-transparent text-center hover:border-purple-400 transition-all duration-500 hover:scale-105 group animate-slide-in-up animation-delay-100">
+                                    <CardContent>
+                                        <Truck className="w-8 h-8 mx-auto mb-3 text-purple-400 group-hover:animate-bounce" />
+                                        <h3 className="text-sm font-semibold mb-2">Envíos a Domicilio</h3>
+                                      
+                                    </CardContent>
+                                </Card>
+                                <Card className="bg-transparent text-center hover:border-blue-400 transition-all duration-500 hover:scale-105 group animate-slide-in-up animation-delay-200">
+                                    <CardContent >
+                                        <Handshake className="w-8 h-8 mx-auto mb-3 text-blue-400 group-hover:animate-bounce" />
+                                        <h3 className="text-sm font-semibold mb-2">Entregas Personales</h3>
+                                      
+                                    </CardContent>
+                                </Card>
                             </div>
                         </div>
                     </div>
@@ -201,16 +209,16 @@ export default function ProductDetailPage() {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         {/* Description */}
                         <Card className="bg-gradient-to-br from-gray-900/50 to-black/50 border border-gray-800/50">
-                            <CardContent className="p-6">
-                                <h2 className="text-xl font-bold text-white mb-4">Descripción</h2>
+                            <CardContent className="space-y-3">
+                                <h2 className="text-xl font-bold text-white ">Descripción</h2>
                                 <div className="text-gray-300 leading-relaxed whitespace-pre-line">{product.descripcion}</div>
                             </CardContent>
                         </Card>
 
                         {/* Specifications */}
                         <Card className="bg-gradient-to-br from-gray-900/50 to-black/50 border border-gray-800/50">
-                            <CardContent className="p-6">
-                                <h2 className="text-xl font-bold text-white mb-4">Especificaciones</h2>
+                            <CardContent className="space-y-3" >
+                                <h2 className="text-xl font-bold text-white ">Especificaciones</h2>
                                 <div className="space-y-3">
                                     {product.caracteristicas.map((caracteristica, index) => (
                                         <div key={caracteristica.id}>

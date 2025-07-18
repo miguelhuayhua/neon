@@ -86,8 +86,8 @@ export default function VariantSelector({ opciones, variantes, onVariantChange }
   }
 
   return (
-    <div className="flex flex-wrap">
-      <h3 className="mb-5 font-semibold">
+    <div className="flex flex-wrap gap-4 items-center">
+      <h3 className="font-semibold">
         Variantes disponibles
       </h3>
       {opciones.map((opcion) => (
@@ -122,7 +122,7 @@ export default function VariantSelector({ opciones, variantes, onVariantChange }
 
       {/* Info de variante seleccionada */}
       {selectedVariant && (
-        <div className="pt-3 border-t border-gray-700">
+        <div className="pt-3 w-full border-t border-gray-700">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-white font-medium">{selectedVariant.titulo}</p>

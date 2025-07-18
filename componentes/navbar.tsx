@@ -3,6 +3,7 @@
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Heart, ShoppingCart, Zap, Menu, X } from "lucide-react"
+import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 
@@ -33,20 +34,11 @@ export default function Navbar() {
       {/* Animated border effect */}
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-rose-500/20 to-transparent h-px bottom-0"></div>
 
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-4 md:px-0 py-4">
         <nav className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3 group">
-            <div className="relative">
-              <div className="w-10 h-10    rounded-xl flex border  items-center justify-center shadow-lg shadow-rose-500/30 group-hover:shadow-rose-500/50 transition-all duration-300 group-hover:scale-110">
-                <Zap className="w-5 h-5 text-rose-400" />
-              </div>
-              {/* Glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-rose-500 via-purple-500 to-blue-500 rounded-xl blur-md opacity-30 group-hover:opacity-50 transition-opacity duration-300 -z-10"></div>
-            </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-rose-400 via-purple-400 to-blue-400 bg-clip-text text-transparent group-hover:from-rose-300 group-hover:via-purple-300 group-hover:to-blue-300 transition-all duration-300">
-               NEÖ
-            </span>
+          <Link href="/">
+            <Image src='/neo.png' width={50} height={50} alt="logo" />
           </Link>
 
           {/* Desktop Navigation */}
