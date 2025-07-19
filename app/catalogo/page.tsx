@@ -1,54 +1,55 @@
 "use client"
 
 import { Check, Grid3X3, Heart, List, Search, ShoppingCart, Star, SlidersHorizontal, Eye, Zap } from "lucide-react"
-import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
-
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Slider } from "@/components/ui/slider"
 import Navbar from "@/componentes/navbar"
 import Footer from "@/componentes/footer"
-import ProductCard from "@/componentes/producto"
+import dynamic from "next/dynamic"
+const ProductCard = dynamic(() => import("@/componentes/producto"), {
+  ssr: false,
+  loading: () => <div className="w-full h-full flex items-center justify-center">
+    <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-rose-500"></div>
+  </div>
+})
 import { Publicacion } from "@/types/main"
-
-const categorias = ["Todos", "Comercial", "Hogar", "Gaming", "Personalizado"]
 
 export default function CatalogoPage() {
   const [busqueda, setBusqueda] = useState("")
-  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("Todos")
-  const [ordenamiento, setOrdenamiento] = useState("relevancia")
-  const [vistaGrid, setVistaGrid] = useState(true)
+  const [categorias, setCategorias] = useState<string[]>(["Todos"])
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("todos")
+  useEffect(() => {
+    fetch('https://uayua.com/uayua/api/categorias/getall?fields=nombre,id', {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_UAYUA_TOKEN}`
+      }
+    }).then(res => res.json()).then(data => [...data, "todos"]).then(setCategorias)
+  }, [])
+  const [productosFiltrados, setProductosFiltrados] = useState<Publicacion[]>([])
   const [rangoPrecios, setRangoPrecios] = useState([0, 500])
   const [filtroCalificacion, setFiltroCalificacion] = useState(0)
   const [mostrarFiltros, setMostrarFiltros] = useState(false)
   const [productos, setProductos] = useState<Publicacion[]>([]);
 
-  // Filtrar productos
-  const productosFiltrados = productos.filter((producto) => {
-    const coincideBusqueda =
-      producto.titulo.toLowerCase().includes(busqueda.toLowerCase()) ||
-      producto.descripcion.toLowerCase().includes(busqueda.toLowerCase())
-
-    return coincideBusqueda
-  })
-
 
   useEffect(() => {
 
-    fetch('https://uayua.com/uayua/api/publicaciones/getall?fields=titulo,imagenes,caracteristicas,variantes,colecciones,categorias', {
+    fetch('https://uayua.com/uayua/api/publicaciones/getall?fields=titulo,imagenes,caracteristicas,estado,variantes,colecciones,categorias', {
       method: "GET",
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_UAYUA_TOKEN}`
       }
-    }).then(res => res.json()).then(setProductos)
+    }).then(res => res.json()).then(data => {
+      setProductos(data)
+      setProductosFiltrados(data)
+    })
   }, [])
   return (
     <div className="min-h-screen bg-gray-950 text-white relative font-inter">
@@ -89,19 +90,22 @@ export default function CatalogoPage() {
                 <Input
                   placeholder="Buscar productos..."
                   value={busqueda}
-                  onChange={(e) => setBusqueda(e.target.value)}
+                  onChange={(e) => {
+                    setProductosFiltrados(productos.filter(producto => producto.titulo.toLowerCase().includes(e.target.value.toLowerCase())))
+                    setBusqueda(e.target.value)
+                  }}
                   className="pl-10 bg-gray-800 border-gray-700 text-sm"
                 />
               </div>
 
               {/* Category Filter */}
               <Tabs value={categoriaSeleccionada} onValueChange={setCategoriaSeleccionada}>
-                <TabsList className="bg-gray-800 border-gray-700">
+                <TabsList className="bg-gray-800 border-gray-700 p-2">
                   {categorias.map((categoria) => (
                     <TabsTrigger
                       key={categoria}
                       value={categoria}
-                      className="data-[state=active]:bg-rose-500 data-[state=active]:text-white text-xs font-medium"
+                      className="data-[state=active]:bg-rose-500 data-[state=active]:text-white text-xs font-medium capitalize p-3"
                     >
                       {categoria}
                     </TabsTrigger>
@@ -109,50 +113,7 @@ export default function CatalogoPage() {
                 </TabsList>
               </Tabs>
 
-              {/* Sort */}
-              <Select value={ordenamiento} onValueChange={setOrdenamiento}>
-                <SelectTrigger className="w-48 bg-gray-800 border-gray-700 text-sm">
-                  <SelectValue placeholder="Ordenar por" />
-                </SelectTrigger>
-                <SelectContent className="bg-gray-800 border-gray-700">
-                  <SelectItem value="relevancia">Relevancia</SelectItem>
-                  <SelectItem value="precio-asc">Precio: Menor a Mayor</SelectItem>
-                  <SelectItem value="precio-desc">Precio: Mayor a Menor</SelectItem>
-                  <SelectItem value="calificacion">Mejor Calificación</SelectItem>
-                  <SelectItem value="nombre">Nombre A-Z</SelectItem>
-                </SelectContent>
-              </Select>
 
-              {/* View Toggle */}
-              <div className="flex items-center space-x-2">
-                <Button
-                  variant={vistaGrid ? "default" : "ghost"}
-                  size="sm"
-                  onClick={() => setVistaGrid(true)}
-                  className="bg-gray-800 hover:bg-rose-500"
-                >
-                  <Grid3X3 className="w-4 h-4" />
-                </Button>
-                <Button
-                  variant={!vistaGrid ? "default" : "ghost"}
-                  size="sm"
-                  onClick={() => setVistaGrid(false)}
-                  className="bg-gray-800 hover:bg-rose-500"
-                >
-                  <List className="w-4 h-4" />
-                </Button>
-              </div>
-
-              {/* Filters Toggle */}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setMostrarFiltros(!mostrarFiltros)}
-                className="bg-gray-800 hover:bg-rose-500"
-              >
-                <SlidersHorizontal className="w-4 h-4 mr-2" />
-                Filtros
-              </Button>
             </div>
 
             {/* Advanced Filters */}

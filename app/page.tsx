@@ -32,8 +32,8 @@ import Testimonials from "@/componentes/testimonios"
 
 export default function HomePage() {
   const [isVisible, setIsVisible] = useState(false)
-  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("Todos");
-  const [categorias, setCategorias] = useState<string[]>(["Todos"]);
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("todos");
+  const [categorias, setCategorias] = useState<string[]>(["todos"]);
   const [items, setItems] = useState<Publicacion[]>([]);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ export default function HomePage() {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_UAYUA_TOKEN}`
       }
-    }).then(res => res.json()).then(data=>[...data, "todos"])
+    }).then(res => res.json()).then(data=>[...data, "todos"]).then(setCategorias)
   }, [])
   return (
     <div className="min-h-screen bg-gray-950 text-white relative font-inter">
@@ -79,12 +79,12 @@ export default function HomePage() {
             <Tabs value={categoriaSeleccionada} onValueChange={(value) => {
               setCategoriaSeleccionada(value);
             }} className="mb-10">
-              <TabsList className="flex w-full mx-auto gap-x-5 gap-y-1 p-2 h-fit flex-wrap">
+              <TabsList className="flex  mx-auto gap-x-5 gap-y-1 p-2 h-fit flex-wrap">
                 {categorias.map((categoria) => (
                   <TabsTrigger
                     key={categoria}
                     value={categoria}
-
+className="capitalize p-2"
                   >
                     {categoria}
                   </TabsTrigger>
