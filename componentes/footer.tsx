@@ -22,12 +22,14 @@ export default function Footer() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div className="animate-fade-in-up">
                         <div className="flex items-center space-x-2 mb-3">
-                            <div className="w-8 h-8 bg-gradient-to-r from-rose-500 to-purple-500 rounded-lg flex items-center justify-center">
-                                <Zap className="w-5 h-5 text-white" />
-                            </div>
-                            <span className="text-lg font-bold bg-gradient-to-r from-rose-400 to-purple-400 bg-clip-text text-transparent">
-                                Neö
-                            </span>
+                            <Image
+                                src="/neo.png"
+                                alt="Logo"
+                                width={50}
+                                height={50}
+                                className="h-10 w-10 rounded-full"
+                            />
+                            <span className="text-xl text-white">Neö</span>
                         </div>
                         <p className="text-gray-400 mb-3 text-sm font-medium leading-relaxed">
                             Vendemos tiras LED neón de colores y otras categorías, listas para usar.
