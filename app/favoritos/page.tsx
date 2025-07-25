@@ -16,6 +16,8 @@ import ProductCard from "@/componentes/producto" // Manteniendo tu componente Pr
 
 // Asegúrate de que tu tipo Publicacion esté definido en "@/types/main"
 import type { Publicacion } from "@/types/main"
+import Navbar from "@/componentes/navbar"
+import Footer from "@/componentes/footer"
 
 const FavoritosPage = () => {
     const dispatch = useDispatch()
@@ -137,46 +139,6 @@ const FavoritosPage = () => {
     if (!isLoading && favProducts.length === 0) {
         return (
             <>
-                {/* Header consistente con el resto del sitio */}
-                <header className="border-b border-gray-800 backdrop-blur-sm bg-gray-950/90 sticky top-0 z-50">
-                    <div className="container mx-auto px-4 py-3">
-                        <nav className="flex items-center justify-between">
-                            <Link href="/" className="flex items-center space-x-3 group">
-                                <div className="w-8 h-8 bg-gradient-to-r from-pink-500 to-purple-500 rounded-lg flex items-center justify-center">
-                                    <Zap className="w-5 h-5 text-white" />
-                                </div>
-                                <span className="text-lg font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
-                                    NEÓN STORE
-                                </span>
-                            </Link>
-                            <div className="hidden md:flex items-center space-x-6">
-                                <Link href="/" className="text-sm text-gray-300 hover:text-pink-400 transition-colors font-medium">
-                                    Inicio
-                                </Link>
-                                <Link
-                                    href="/catalogo"
-                                    className="text-sm text-gray-300 hover:text-pink-400 transition-colors font-medium"
-                                >
-                                    Catálogo
-                                </Link>
-                                <Link href="/favoritos" className="text-sm text-pink-400 font-medium">
-                                    Favoritos
-                                </Link>
-                            </div>
-                            <div className="flex items-center space-x-3">
-                                <Button variant="ghost" size="sm" className="hover:bg-pink-500/20 text-gray-300">
-                                    <Heart className="w-4 h-4" />
-                                </Button>
-                                <Button variant="ghost" size="sm" className="hover:bg-pink-500/20 relative text-gray-300">
-                                    <ShoppingCart className="w-4 h-4" />
-                                    <Badge className="absolute -top-1 -right-1 bg-pink-500 text-white text-xs px-1 py-0">
-                                        {favProducts.length}
-                                    </Badge>
-                                </Button>
-                            </div>
-                        </nav>
-                    </div>
-                </header>
 
                 <div className="min-h-screen bg-gray-950 text-white relative font-inter pt-16">
                     {/* Patrón de fondo */}
@@ -206,34 +168,7 @@ const FavoritosPage = () => {
                                     Explorar Productos
                                 </Link>
                             </Button>
-                            {/* Productos sugeridos */}
-                            <div className="mt-12">
-                                <h3 className="text-lg font-semibold mb-6">Productos Populares</h3>
-                                <div className="grid grid-cols-1 gap-4">
-                                    {/* Aquí se asume que tienes una forma de obtener productos populares,
-                      para la demo, usaré un placeholder similar al tuyo */}
-                                    {[1, 2, 3].map((i) => (
-                                        <Card key={i} className="bg-gray-800 border-gray-700 hover:shadow-md transition-shadow">
-                                            <CardContent className="p-4">
-                                                <div className="flex items-center space-x-4">
-                                                    <div className="w-16 h-16 bg-gray-700 rounded-lg"></div>
-                                                    <div className="flex-1 text-left">
-                                                        <h4 className="font-medium text-base">Producto Sugerido {i}</h4>
-                                                        <p className="text-pink-400 font-semibold text-sm">€25.00</p>
-                                                    </div>
-                                                    <Button
-                                                        size="sm"
-                                                        variant="outline"
-                                                        className="border-gray-600 text-gray-400 hover:bg-pink-500/20 bg-transparent"
-                                                    >
-                                                        <Heart className="w-4 h-4" />
-                                                    </Button>
-                                                </div>
-                                            </CardContent>
-                                        </Card>
-                                    ))}
-                                </div>
-                            </div>
+
                         </motion.div>
                     </div>
                 </div>
@@ -243,46 +178,7 @@ const FavoritosPage = () => {
 
     return (
         <>
-            {/* Header consistente con el resto del sitio */}
-            <header className="border-b border-gray-800 backdrop-blur-sm bg-gray-950/90 sticky top-0 z-50">
-                <div className="container mx-auto px-4 py-3">
-                    <nav className="flex items-center justify-between">
-                        <Link href="/" className="flex items-center space-x-3 group">
-                            <div className="w-8 h-8 bg-gradient-to-r from-pink-500 to-purple-500 rounded-lg flex items-center justify-center">
-                                <Zap className="w-5 h-5 text-white" />
-                            </div>
-                            <span className="text-lg font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
-                                NEÓN STORE
-                            </span>
-                        </Link>
-                        <div className="hidden md:flex items-center space-x-6">
-                            <Link href="/" className="text-sm text-gray-300 hover:text-pink-400 transition-colors font-medium">
-                                Inicio
-                            </Link>
-                            <Link
-                                href="/catalogo"
-                                className="text-sm text-gray-300 hover:text-pink-400 transition-colors font-medium"
-                            >
-                                Catálogo
-                            </Link>
-                            <Link href="/favoritos" className="text-sm text-pink-400 font-medium">
-                                Favoritos
-                            </Link>
-                        </div>
-                        <div className="flex items-center space-x-3">
-                            <Button variant="ghost" size="sm" className="hover:bg-pink-500/20 text-gray-300">
-                                <Heart className="w-4 h-4" />
-                            </Button>
-                            <Button variant="ghost" size="sm" className="hover:bg-pink-500/20 relative text-gray-300">
-                                <ShoppingCart className="w-4 h-4" />
-                                <Badge className="absolute -top-1 -right-1 bg-pink-500 text-white text-xs px-1 py-0">
-                                    {favProducts.length}
-                                </Badge>
-                            </Button>
-                        </div>
-                    </nav>
-                </div>
-            </header>
+            <Navbar />
 
             <div className="min-h-screen bg-gray-950 text-white relative font-inter pt-16">
                 {/* Patrón de fondo */}
@@ -315,118 +211,9 @@ const FavoritosPage = () => {
                         <p className="text-gray-400 text-sm">
                             {isLoading ? "Cargando..." : `${filteredProductos.length} de ${favProducts.length} productos`}
                         </p>
-                        {/* Estadísticas rápidas */}
-                        {!isLoading && productos.length > 0 && (
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 my-6 animate-fade-in-up animation-delay-200">
-                                <Card className="bg-gray-800 border-gray-700">
-                                    <CardContent className="p-4 text-center">
-                                        <div className="text-xl font-bold text-pink-400">
-                                            €{productos.reduce((total, p) => total + (p.variantes[0]?.precio || 0), 0).toLocaleString()}
-                                        </div>
-                                        <p className="text-xs text-gray-400">Valor total</p>
-                                    </CardContent>
-                                </Card>
-                                <Card className="bg-gray-800 border-gray-700">
-                                    <CardContent className="p-4 text-center">
-                                        <div className="text-xl font-bold text-green-400">
-                                            €
-                                            {Math.round(
-                                                productos.reduce(
-                                                    (total, p) =>
-                                                        total +
-                                                        (p.variantes[0]?.precio
-                                                            ? p.variantes[0].precio - (p.variantes[0]?.precio || 0)
-                                                            : 0),
-                                                    0,
-                                                ),
-                                            ).toLocaleString()}
-                                        </div>
-                                        <p className="text-xs text-gray-400">Ahorros potenciales</p>
-                                    </CardContent>
-                                </Card>
-                                <Card className="bg-gray-800 border-gray-700">
-                                    <CardContent className="p-4 text-center">
-                                        <div className="text-xl font-bold text-purple-400">
-                                            {productos.filter((p) => p.colecciones?.some((c) => c.coleccion.nombre === "Más Vendido")).length}
-                                        </div>
-                                        <p className="text-xs text-gray-400">Más vendidos</p>
-                                    </CardContent>
-                                </Card>
-                                <Card className="bg-gray-800 border-gray-700">
-                                    <CardContent className="p-4 text-center">
-                                        <div className="text-xl font-bold text-blue-400">
-                                            {productos.filter((p) => p.colecciones?.some((c) => c.coleccion.nombre === "Oferta")).length}
-                                        </div>
-                                        <p className="text-xs text-gray-400">En oferta</p>
-                                    </CardContent>
-                                </Card>
-                            </div>
-                        )}
                     </motion.div>
 
-                    {/* Barra de búsqueda y filtros */}
-                    <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-4 mb-8 animate-fade-in-up animation-delay-300">
-                        <div className="flex flex-col lg:flex-row gap-4 items-center">
-                            {/* Search */}
-                            <div className="relative flex-1 w-full lg:w-auto">
-                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                                <Input
-                                    placeholder="Buscar en favoritos..."
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="pl-10 bg-gray-800 border-gray-700 text-sm"
-                                />
-                            </div>
 
-                            {/* Category Filter */}
-                            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                                <SelectTrigger className="w-48 bg-gray-800 border-gray-700 text-sm">
-                                    <SelectValue placeholder="Categoría" />
-                                </SelectTrigger>
-                                <SelectContent className="bg-gray-800 border-gray-700">
-                                    <SelectItem value="all">Todas las categorías</SelectItem>
-                                    {/* Asumiendo que tus productos tienen una propiedad 'categoria' */}
-                                    <SelectItem value="Comercial">Comercial</SelectItem>
-                                    <SelectItem value="Hogar">Hogar</SelectItem>
-                                    <SelectItem value="Gaming">Gaming</SelectItem>
-                                    <SelectItem value="Personalizado">Personalizado</SelectItem>
-                                </SelectContent>
-                            </Select>
-
-                            {/* Sort */}
-                            <Select value={sortBy} onValueChange={setSortBy}>
-                                <SelectTrigger className="w-48 bg-gray-800 border-gray-700 text-sm">
-                                    <SelectValue placeholder="Ordenar por" />
-                                </SelectTrigger>
-                                <SelectContent className="bg-gray-800 border-gray-700">
-                                    <SelectItem value="newest">Más Recientes</SelectItem>
-                                    <SelectItem value="price-low">Precio: Menor a Mayor</SelectItem>
-                                    <SelectItem value="price-high">Precio: Mayor a Menor</SelectItem>
-                                    <SelectItem value="name">Nombre A-Z</SelectItem>
-                                </SelectContent>
-                            </Select>
-
-                            {/* View Toggle */}
-                            <div className="flex items-center space-x-2">
-                                <Button
-                                    variant={layout === "grid" ? "default" : "ghost"}
-                                    size="sm"
-                                    onClick={() => setLayout("grid")}
-                                    className="bg-gray-800 hover:bg-pink-500"
-                                >
-                                    <Grid3X3 className="w-4 h-4" />
-                                </Button>
-                                <Button
-                                    variant={layout === "list" ? "default" : "ghost"}
-                                    size="sm"
-                                    onClick={() => setLayout("list")}
-                                    className="bg-gray-800 hover:bg-pink-500"
-                                >
-                                    <List className="w-4 h-4" />
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
 
                     {/* Grid de productos */}
                     <AnimatePresence>
@@ -527,6 +314,7 @@ const FavoritosPage = () => {
                         )}</> */}
                 </div>
             </div>
+            <Footer />
         </>
     )
 }

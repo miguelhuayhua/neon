@@ -20,7 +20,7 @@ interface ProductCardProps {
 export default function ProductCard({ publicacion }: ProductCardProps) {
     const [isHovered, setIsHovered] = useState(false)
     const [imageError, setImageError] = useState(false)
-
+    console.log(publicacion.categorias)
     // Obtener la primera imagen ordenada
     const primaryImage = publicacion.imagenes.sort((a, b) => a.orden - b.orden)[0]
     const { favProducts } = useSelector((state: RootState) => state.user)
@@ -115,10 +115,10 @@ export default function ProductCard({ publicacion }: ProductCardProps) {
                             <div className="flex flex-wrap gap-1">
                                 {publicacion.categorias.slice(0, 2).map(({ categoria }) => (
                                     <Badge
-                                        key={categoria.id}
+                                        key={categoria?.id}
                                         className="bg-rose-500/10 text-rose-400 border-rose-500/20 text-xs px-2 py-0.5"
                                     >
-                                        {categoria.nombre}
+                                        {categoria?.nombre}
                                     </Badge>
                                 ))}
                                 {publicacion.categorias.length > 2 && (

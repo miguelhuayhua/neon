@@ -43,6 +43,12 @@ export type Categoria = {
   nombre: string;
 };
 
+export type CategoriaPublicacion = {
+  publicacionId: string
+  categoriaId: string
+  categoria?: Categoria
+}
+
 export type Coleccion = {
   id: string;
   nombre: string;
@@ -62,9 +68,7 @@ export type Publicacion = {
   opciones: Opcion[];
   variantes: Variante[];
 
-  categorias: {
-    categoria: Categoria;
-  }[];
+  categorias: CategoriaPublicacion[]
 
   colecciones: {
     coleccion: Coleccion;

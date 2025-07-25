@@ -33,12 +33,12 @@ import Testimonials from "@/componentes/testimonios"
 export default function HomePage() {
   const [isVisible, setIsVisible] = useState(false)
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("todos");
-  const [categorias, setCategorias] = useState<string[]>(["todos"]);
+  const [categorias, setCategorias] = useState<{ nombre: string, id?: string }[]>([{ nombre: "todos" }]);
   const [items, setItems] = useState<Publicacion[]>([]);
 
   useEffect(() => {
     setIsVisible(true)
-    fetch('https://uayua.com/uayua/api/publicaciones/getall?fields=titulo,imagenes,caracteristicas,estado,variantes,colecciones,categorias', {
+    fetch('https://uayua.com/uayua/api/publicaciones/getall?fields=titulo,imagenes,caracteristicas,estado,variantes,colecciones,categorias:categoria', {
       method: "GET",
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_UAYUA_TOKEN}`
@@ -51,7 +51,7 @@ export default function HomePage() {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_UAYUA_TOKEN}`
       }
-    }).then(res => res.json()).then(data=>[...data, "todos"]).then(setCategorias)
+    }).then(res => res.json()).then(data => [...data, { nombre: "todos", id: "" }]).then(setCategorias)
   }, [])
   return (
     <div className="min-h-screen bg-gray-950 text-white relative font-inter">
@@ -79,14 +79,14 @@ export default function HomePage() {
             <Tabs value={categoriaSeleccionada} onValueChange={(value) => {
               setCategoriaSeleccionada(value);
             }} className="mb-10">
-              <TabsList className="flex  mx-auto gap-x-5 gap-y-1 p-2 h-fit flex-wrap">
+              <TabsList className="flex px-1  mx-auto gap-x-2 gap-y-1  h-fit flex-wrap">
                 {categorias.map((categoria) => (
                   <TabsTrigger
-                    key={categoria}
-                    value={categoria}
-className="capitalize p-2"
+                    key={categoria.nombre}
+                    value={categoria.nombre}
+                    className="capitalize p-2"
                   >
-                    {categoria}
+                    {categoria.nombre}
                   </TabsTrigger>
                 ))}
               </TabsList>

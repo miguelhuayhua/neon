@@ -50,7 +50,7 @@ export default function Footer() {
                                     <li key={enlace.id}>
                                         <Link
                                             href="#"
-                                            className="hover:text-rose-400 transition-colors duration-300 text-sm font-medium"
+                                            className="hover:text-rose-400 capitalize transition-colors duration-300 text-sm font-medium"
                                         >
                                             {enlace.nombre}
                                         </Link>

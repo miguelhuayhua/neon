@@ -46,8 +46,8 @@ export default function Navbar() {
             {[
               { name: "Productos", href: "#productos" },
               { name: "Personalizado", href: "#personalizado" },
-              { name: "Nosotros", href: "#nosotros" },
-              { name: "Contacto", href: "#contacto" },
+              { name: "Nosotros", href: "/#nosotros" },
+              { name: "Contacto", href: "/#contacto" },
             ].map((item, i) => (
               <Link
                 key={item.name}
@@ -103,8 +103,8 @@ export default function Navbar() {
               {[
                 { name: "Productos", href: "#productos" },
               
-                { name: "Nosotros", href: "#nosotros" },
-                { name: "Contacto", href: "#contacto" },
+                { name: "Nosotros", href: "/#nosotros" },
+                { name: "Contacto", href: "/#contacto" },
               ].map((item, i) => (
                 <Link
                   key={item.name}

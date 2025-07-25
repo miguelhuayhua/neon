@@ -18,11 +18,11 @@ const ProductCard = dynamic(() => import("@/componentes/producto"), {
     <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-rose-500"></div>
   </div>
 })
-import { Publicacion } from "@/types/main"
+import { Categoria, Publicacion } from "@/types/main"
 
 export default function CatalogoPage() {
   const [busqueda, setBusqueda] = useState("")
-  const [categorias, setCategorias] = useState<string[]>(["Todos"])
+  const [categorias, setCategorias] = useState<Categoria[]>([{ id: "", nombre: "todos" }])
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("todos")
   useEffect(() => {
     fetch('https://uayua.com/uayua/api/categorias/getall?fields=nombre,id', {
@@ -30,7 +30,7 @@ export default function CatalogoPage() {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_UAYUA_TOKEN}`
       }
-    }).then(res => res.json()).then(data => [...data, "todos"]).then(setCategorias)
+    }).then(res => res.json()).then(data => [...data, { id: "", nombre: "todos" }]).then(setCategorias)
   }, [])
   const [productosFiltrados, setProductosFiltrados] = useState<Publicacion[]>([])
   const [rangoPrecios, setRangoPrecios] = useState([0, 500])
@@ -41,7 +41,7 @@ export default function CatalogoPage() {
 
   useEffect(() => {
 
-    fetch('https://uayua.com/uayua/api/publicaciones/getall?fields=titulo,imagenes,caracteristicas,estado,variantes,colecciones,categorias', {
+    fetch('https://uayua.com/uayua/api/publicaciones/getall?fields=titulo,imagenes,caracteristicas,estado,variantes,colecciones,categorias:categoria', {
       method: "GET",
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_UAYUA_TOKEN}`
@@ -91,6 +91,7 @@ export default function CatalogoPage() {
                   placeholder="Buscar productos..."
                   value={busqueda}
                   onChange={(e) => {
+                    setCategoriaSeleccionada('todos')
                     setProductosFiltrados(productos.filter(producto => producto.titulo.toLowerCase().includes(e.target.value.toLowerCase())))
                     setBusqueda(e.target.value)
                   }}
@@ -99,15 +100,23 @@ export default function CatalogoPage() {
               </div>
 
               {/* Category Filter */}
-              <Tabs value={categoriaSeleccionada} onValueChange={setCategoriaSeleccionada}>
-                <TabsList className="bg-gray-800 border-gray-700 p-2">
+              <Tabs value={categoriaSeleccionada} onValueChange={(value) => {
+                setCategoriaSeleccionada(value);
+                if (value == 'todos') {
+                  setProductosFiltrados(productos);
+                }
+                else
+                  setProductosFiltrados(productos.filter(producto => producto.categorias.some(cat => cat.categoria?.nombre == value)))
+
+              }}>
+                <TabsList className="bg-gray-800 border-gray-700">
                   {categorias.map((categoria) => (
                     <TabsTrigger
-                      key={categoria}
-                      value={categoria}
+                      key={categoria.id}
+                      value={categoria.nombre}
                       className="data-[state=active]:bg-rose-500 data-[state=active]:text-white text-xs font-medium capitalize p-3"
                     >
-                      {categoria}
+                      {categoria.nombre}
                     </TabsTrigger>
                   ))}
                 </TabsList>
@@ -216,9 +225,9 @@ export default function CatalogoPage() {
             </div>
           )}
         </section>
-      </div>
+      </div >
 
       <Footer />
-    </div>
+    </div >
   )
 }
