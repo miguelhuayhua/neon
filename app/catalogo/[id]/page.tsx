@@ -132,8 +132,8 @@ export default function ProductDetailPage() {
                             {/* Categories */}
                             <div className="flex flex-wrap gap-2">
                                 {product.categorias.map(({ categoria }) => (
-                                    <Badge key={categoria.id} className="bg-rose-500/20 text-rose-400 border-rose-500/30">
-                                        {categoria.nombre}
+                                    <Badge key={categoria?.id} className="bg-rose-500/20 text-rose-400 border-rose-500/30">
+                                        {categoria?.nombre}
                                     </Badge>
                                 ))}
                             </div>
