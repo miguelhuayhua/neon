@@ -32,7 +32,7 @@ export default function ProductDetailPage() {
         const loadProduct = async () => {
             setLoading(true)
             try {
-                const res = await fetch(`https://uayua.com/uayua/api/publicaciones/get?id=${params.id}&fields=id,titulo,imagenes,subtitulo,colecciones,categorias,caracteristicas,estado,variantes:valores,opciones,opciones:valores,opciones:id,variantes:id,variantes:titulo,variantes:estado,variantes:precio,descripcion`, {
+                const res = await fetch(`https://uayua.com/uayua/api/publicaciones/get?id=${params.id}&fields=id,titulo,imagenes,subtitulo,colecciones,caracteristicas,estado,variantes:valores,opciones,opciones:valores,opciones:id,variantes:id,variantes:titulo,variantes:estado,variantes:precio,descripcion,categorias:categoria`, {
                     headers: {
                         Authorization: `Bearer ${process.env.NEXT_PUBLIC_UAYUA_TOKEN}`
                     }
@@ -114,94 +114,92 @@ export default function ProductDetailPage() {
                         {/* Product Info */}
                         <div className="space-y-6">
                             {/* Header */}
-                            <div>
-                                <div className="flex items-center gap-2 mb-2">
-                                    {product.colecciones.map(({ coleccion }) => (
-                                        <Badge key={coleccion.id} className="bg-blue-500/20 text-blue-400 border-blue-500/30">
-                                            {coleccion.nombre}
-                                        </Badge>
-                                    ))}
-                                    {!product.estado && <Badge className="bg-red-500/20 text-red-400 border-red-500/30">Agotado</Badge>}
-                                </div>
-                                <h1 className="text-3xl font-bold text-white mb-2">{product.titulo}</h1>
-                                <p className="text-lg text-gray-300">{product.subtitulo}</p>
-
-
-                            </div>
-
-                            {/* Categories */}
-                            <div className="flex flex-wrap gap-2">
-                                {product.categorias.map(({ categoria }) => (
-                                    <Badge key={categoria?.id} className="bg-rose-500/20 text-rose-400 border-rose-500/30">
-                                        {categoria?.nombre}
+                            <div className="flex items-center gap-2 mb-2">
+                                {product.colecciones.map(({ coleccion }) => (
+                                    <Badge key={coleccion.id} className="bg-blue-500/20 text-blue-400 border-blue-500/30">
+                                        {coleccion.nombre}
                                     </Badge>
                                 ))}
+                                {!product.estado && <Badge className="bg-red-500/20 text-red-400 border-red-500/30">Agotado</Badge>}
                             </div>
+                            <h1 className="text-3xl font-bold text-white mb-2">{product.titulo}</h1>
+                            <p className="text-lg text-gray-300">{product.subtitulo}</p>
 
-                            {/* Variant Selector */}
-                            <VariantSelector
-                                opciones={product.opciones}
-                                variantes={product.variantes}
-                                onVariantChange={handleVariantChange}
-                            />
 
-                            {/* Action Buttons */}
-                            <div className="space-y-3">
+                        </div>
+
+                        {/* Categories */}
+                        <div className="flex flex-wrap gap-2">
+                            {product.categorias.map(({ categoria }) => (
+                                <Badge key={categoria?.id} className="bg-rose-500/20 text-rose-400 border-rose-500/30">
+                                    {categoria?.nombre}
+                                </Badge>
+                            ))}
+                        </div>
+
+                        {/* Variant Selector */}
+                        <VariantSelector
+                            opciones={product.opciones}
+                            variantes={product.variantes}
+                            onVariantChange={handleVariantChange}
+                        />
+
+                        {/* Action Buttons */}
+                        <div className="space-y-3">
+                            <Button
+                                asChild
+                                className="w-full  text-white  "
+                                variant="default"
+                                disabled={(!!selectedVariant && product.variantes.length > 1) || (product.estado)}
+                            >
+                                <Link href={`https://wa.me/59169848691?text=Hola, estoy interesado en el producto: ${product.titulo} - ${window.location.href}`} target="_blank">
+                                    <Phone className="size-4" />
+                                    {!product.estado ? "Solicitar compra"
+                                        : "Selecciona una variante"}
+                                </Link>
+                            </Button>
+
+                            <div className="flex gap-3">
                                 <Button
-                                    asChild
-                                    className="w-full  text-white  "
-                                    variant="default"
-                                    disabled={(!!selectedVariant && product.variantes.length > 1) || (product.estado)}
+                                    variant="outline"
+                                    className="flex-1 border-gray-700 text-gray-300 hover:border-rose-500/50 hover:text-rose-300 bg-transparent"
+                                    onClick={() => setIsFavorite(!isFavorite)}
                                 >
-                                    <Link href={`https://wa.me/59169848691?text=Hola, estoy interesado en el producto: ${product.titulo} - ${window.location.href}`} target="_blank">
-                                        <Phone className="size-4" />
-                                        {!product.estado ? "Solicitar compra"
-                                            : "Selecciona una variante"}
-                                    </Link>
+                                    <Heart className={`w-4 h-4 mr-2 ${isFavorite ? "fill-current text-rose-400" : ""}`} />
+                                    {isFavorite ? "En favoritos" : "Añadir a favoritos"}
                                 </Button>
-
-                                <div className="flex gap-3">
-                                    <Button
-                                        variant="outline"
-                                        className="flex-1 border-gray-700 text-gray-300 hover:border-rose-500/50 hover:text-rose-300 bg-transparent"
-                                        onClick={() => setIsFavorite(!isFavorite)}
-                                    >
-                                        <Heart className={`w-4 h-4 mr-2 ${isFavorite ? "fill-current text-rose-400" : ""}`} />
-                                        {isFavorite ? "En favoritos" : "Añadir a favoritos"}
-                                    </Button>
-                                    <Button
-                                        variant="outline"
-                                        className="border-gray-700 text-gray-300 hover:border-purple-500/50 hover:text-purple-300 bg-transparent"
-                                        onClick={handleShare}
-                                    >
-                                        <Share2 className="w-4 h-4" />
-                                    </Button>
-                                </div>
+                                <Button
+                                    variant="outline"
+                                    className="border-gray-700 text-gray-300 hover:border-purple-500/50 hover:text-purple-300 bg-transparent"
+                                    onClick={handleShare}
+                                >
+                                    <Share2 className="w-4 h-4" />
+                                </Button>
                             </div>
+                        </div>
 
-                            <div className="grid grid-cols-3 gap-4 max-w-md w-full mx-auto">
-                                <Card className="bg-transparent  text-center hover:border-pink-400 transition-all duration-500 hover:scale-105 group animate-slide-in-up">
-                                    <CardContent >
-                                        <ShoppingCart className="w-8 h-8 mx-auto mb-3 text-pink-400 group-hover:animate-bounce" />
-                                        <h3 className="text-sm font-semibold mb-2">Tienda Online 24/7</h3>
-                                       
-                                    </CardContent>
-                                </Card>
-                                <Card className="bg-transparent text-center hover:border-purple-400 transition-all duration-500 hover:scale-105 group animate-slide-in-up animation-delay-100">
-                                    <CardContent>
-                                        <Truck className="w-8 h-8 mx-auto mb-3 text-purple-400 group-hover:animate-bounce" />
-                                        <h3 className="text-sm font-semibold mb-2">Envíos a Domicilio</h3>
-                                      
-                                    </CardContent>
-                                </Card>
-                                <Card className="bg-transparent text-center hover:border-blue-400 transition-all duration-500 hover:scale-105 group animate-slide-in-up animation-delay-200">
-                                    <CardContent >
-                                        <Handshake className="w-8 h-8 mx-auto mb-3 text-blue-400 group-hover:animate-bounce" />
-                                        <h3 className="text-sm font-semibold mb-2">Entregas Personales</h3>
-                                      
-                                    </CardContent>
-                                </Card>
-                            </div>
+                        <div className="grid grid-cols-3 gap-4 max-w-md w-full mx-auto">
+                            <Card className="bg-transparent  text-center hover:border-pink-400 transition-all duration-500 hover:scale-105 group animate-slide-in-up">
+                                <CardContent >
+                                    <ShoppingCart className="w-8 h-8 mx-auto mb-3 text-pink-400 group-hover:animate-bounce" />
+                                    <h3 className="text-sm font-semibold mb-2">Tienda Online 24/7</h3>
+
+                                </CardContent>
+                            </Card>
+                            <Card className="bg-transparent text-center hover:border-purple-400 transition-all duration-500 hover:scale-105 group animate-slide-in-up animation-delay-100">
+                                <CardContent>
+                                    <Truck className="w-8 h-8 mx-auto mb-3 text-purple-400 group-hover:animate-bounce" />
+                                    <h3 className="text-sm font-semibold mb-2">Envíos a Domicilio</h3>
+
+                                </CardContent>
+                            </Card>
+                            <Card className="bg-transparent text-center hover:border-blue-400 transition-all duration-500 hover:scale-105 group animate-slide-in-up animation-delay-200">
+                                <CardContent >
+                                    <Handshake className="w-8 h-8 mx-auto mb-3 text-blue-400 group-hover:animate-bounce" />
+                                    <h3 className="text-sm font-semibold mb-2">Entregas Personales</h3>
+
+                                </CardContent>
+                            </Card>
                         </div>
                     </div>
 

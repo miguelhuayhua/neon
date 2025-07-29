@@ -136,7 +136,7 @@ export default function HomePage() {
                 <Handshake className="w-8 h-8 mx-auto mb-3 text-blue-400 group-hover:animate-bounce" />
                 <h3 className="text-sm font-semibold mb-2">Entregas Personales</h3>
                 <p className="text-gray-400 text-xs font-medium leading-relaxed">
-                  Para mayor comodidad, ofrecemos entregas personales en puntos acordados en Madrid.
+                  Para mayor comodidad, ofrecemos entregas personales en puntos acordados en La Paz o Bolivia.
                 </p>
               </CardContent>
             </Card>
