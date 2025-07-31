@@ -54,7 +54,7 @@ export default function ProductCard({ publicacion }: ProductCardProps) {
 
 
     return (
-        <Link href={`/catalogo/${publicacion.id}`}>
+        <Link href={`/catalogo/${publicacion.url ? publicacion.url : publicacion.id}`}>
             <Card
                 className="group relative overflow-hidden p-0 bg-gradient-to-br from-gray-900/50 to-black/50 border border-gray-800/50 hover:border-rose-500/50 transition-all duration-500 backdrop-blur-sm hover:shadow-2xl hover:shadow-rose-500/20 cursor-pointer"
                 onMouseEnter={() => setIsHovered(true)}
