@@ -1,6 +1,6 @@
 "use client"
 
-import { Check, Grid3X3, Heart, List, Search, ShoppingCart, Star, SlidersHorizontal, Eye, Zap } from "lucide-react"
+import { Check, Grid3X3, Heart, List, Search, ShoppingCart, Star, SlidersHorizontal, Eye, Zap, LoaderCircle } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
@@ -12,33 +12,31 @@ import { Slider } from "@/components/ui/slider"
 import Navbar from "@/componentes/navbar"
 import Footer from "@/componentes/footer"
 import dynamic from "next/dynamic"
-const ProductCard = dynamic(() => import("@/componentes/producto"), {
+const Productos = dynamic(() => import("./../products-list"), {
   ssr: false,
-  loading: () => <div className="w-full h-full flex items-center justify-center">
-    <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-rose-500"></div>
-  </div>
-})
+  loading: () => <>
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="animate-pulse bg-gray-800 h-64 rounded-lg"></div>
+      <div className="animate-pulse bg-gray-800 h-64 rounded-lg"></div>
+      <div className="animate-pulse bg-gray-800 h-64 rounded-lg"></div>
+      <div className="animate-pulse bg-gray-800 h-64 rounded-lg"></div>
+    </div>
+  </>,
+});
 import { Categoria, Publicacion } from "@/types/main"
 
 export default function CatalogoPage() {
   const [busqueda, setBusqueda] = useState("")
   const [categorias, setCategorias] = useState<Categoria[]>([{ id: "", nombre: "todos" }])
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("todos")
-  useEffect(() => {
-    fetch('https://uayua.com/uayua/api/categorias/getall?fields=nombre,id', {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_UAYUA_TOKEN}`
-      }
-    }).then(res => res.json()).then(data => [...data, { id: "", nombre: "todos" }]).then(setCategorias)
-  }, [])
+
   const [productosFiltrados, setProductosFiltrados] = useState<Publicacion[]>([])
   const [rangoPrecios, setRangoPrecios] = useState([0, 500])
   const [filtroCalificacion, setFiltroCalificacion] = useState(0)
   const [mostrarFiltros, setMostrarFiltros] = useState(false)
   const [productos, setProductos] = useState<Publicacion[]>([]);
 
-
+  const [isVisible, setIsVisible] = useState(false);
   useEffect(() => {
 
     fetch('https://uayua.com/uayua/api/publicaciones/getall?fields=titulo,imagenes,caracteristicas,estado,variantes,colecciones,categorias:categoria', {
@@ -49,6 +47,17 @@ export default function CatalogoPage() {
     }).then(res => res.json()).then(data => {
       setProductos(data)
       setProductosFiltrados(data)
+    })
+  }, []);
+  useEffect(() => {
+    fetch('https://uayua.com/uayua/api/categorias/getall?fields=nombre,id', {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_UAYUA_TOKEN}`
+      }
+    }).then(res => res.json()).then(data => [...data, { id: "", nombre: "todos" }]).then(data => {
+      setCategorias(data);
+      setIsVisible(true);
     })
   }, [])
   return (
@@ -110,15 +119,15 @@ export default function CatalogoPage() {
 
               }}>
                 <TabsList className="bg-gray-800 border-gray-700">
-                  {categorias.map((categoria) => (
+                  {isVisible ? categorias.map((categoria) => (
                     <TabsTrigger
-                      key={categoria.id}
+                      key={categoria.nombre}
                       value={categoria.nombre}
-                      className="data-[state=active]:bg-rose-500 data-[state=active]:text-white text-xs font-medium capitalize p-3"
+                      className="capitalize p-2"
                     >
                       {categoria.nombre}
                     </TabsTrigger>
-                  ))}
+                  )) : <LoaderCircle className="size-4 animate-spin" />}
                 </TabsList>
               </Tabs>
 
@@ -193,15 +202,7 @@ export default function CatalogoPage() {
             </p>
           </div>
 
-          {/* Products Grid/List */}
-          {(
-            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {productosFiltrados.map(producto => (
-                <ProductCard key={producto.id} publicacion={producto} />
-              ))}
-            </div>
-          )}
-
+          <Productos productosFiltrados={productosFiltrados} />
 
           {/* No Results */}
           {productosFiltrados.length === 0 && (

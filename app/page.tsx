@@ -9,6 +9,7 @@ import {
   ShoppingCart,
   Truck,
   Handshake,
+  LoaderCircle,
 } from "lucide-react"
 import { useEffect, useState } from "react"
 
@@ -18,32 +19,42 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
-import dynamic from "next/dynamic"
-const Producto = dynamic(() => import("@/componentes/producto"), {
-  ssr: false,
-  loading: () => <div className="animate-pulse bg-gray-800 h-64 rounded-lg"></div>,
-});
+
 import Navbar from "@/componentes/navbar"
 import Footer from "@/componentes/footer"
 import HeroSection from "@/componentes/hero"
 import { Publicacion } from "@/types/main"
 import Testimonials from "@/componentes/testimonios"
-
-
+import dynamic from "next/dynamic"
+const Productos = dynamic(() => import("./products-list"), {
+  ssr: false,
+  loading: () => <>
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="animate-pulse bg-gray-800 h-64 rounded-lg"></div>
+      <div className="animate-pulse bg-gray-800 h-64 rounded-lg"></div>
+      <div className="animate-pulse bg-gray-800 h-64 rounded-lg"></div>
+      <div className="animate-pulse bg-gray-800 h-64 rounded-lg"></div>
+    </div>
+  </>,
+});
 export default function HomePage() {
   const [isVisible, setIsVisible] = useState(false)
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("todos");
   const [categorias, setCategorias] = useState<{ nombre: string, id?: string }[]>([{ nombre: "todos" }]);
-  const [items, setItems] = useState<Publicacion[]>([]);
+  const [productos, setProductos] = useState<Publicacion[]>([]);
+  const [productosFiltrados, setProductosFiltrados] = useState<Publicacion[]>([])
+
 
   useEffect(() => {
-    setIsVisible(true)
     fetch('https://uayua.com/uayua/api/publicaciones/getall?fields=titulo,imagenes,caracteristicas,estado,variantes,colecciones,categorias:categoria', {
       method: "GET",
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_UAYUA_TOKEN}`
       }
-    }).then(res => res.json()).then(setItems)
+    }).then(res => res.json()).then(data => {
+      setProductos(data);
+      setProductosFiltrados(data);
+    })
   }, [])
   useEffect(() => {
     fetch('https://uayua.com/uayua/api/categorias/getall?fields=nombre,id', {
@@ -51,7 +62,10 @@ export default function HomePage() {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_UAYUA_TOKEN}`
       }
-    }).then(res => res.json()).then(data => [...data, { nombre: "todos", id: "" }]).then(setCategorias)
+    }).then(res => res.json()).then(data => [...data, { nombre: "todos", id: "" }]).then(data => {
+      setCategorias(data);
+      setIsVisible(true);
+    })
   }, [])
   return (
     <div className="min-h-screen bg-gray-950 text-white relative font-inter">
@@ -78,9 +92,15 @@ export default function HomePage() {
             {/* Category Filter */}
             <Tabs value={categoriaSeleccionada} onValueChange={(value) => {
               setCategoriaSeleccionada(value);
+              if (value == 'todos') {
+                setProductosFiltrados(productos);
+              }
+              else
+                setProductosFiltrados(productos.filter(producto => producto.categorias.some(cat => cat.categoria?.nombre == value)))
+
             }} className="mb-10">
               <TabsList className="flex px-1  mx-auto gap-x-2 gap-y-1  h-fit flex-wrap">
-                {categorias.map((categoria) => (
+                {isVisible ? categorias.map((categoria) => (
                   <TabsTrigger
                     key={categoria.nombre}
                     value={categoria.nombre}
@@ -88,16 +108,11 @@ export default function HomePage() {
                   >
                     {categoria.nombre}
                   </TabsTrigger>
-                ))}
+                )) : <LoaderCircle className="size-4 animate-spin" />}
               </TabsList>
             </Tabs>
+            <Productos productosFiltrados={productosFiltrados} />
 
-            {/* Products Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {items.map((producto, i) => (
-                <Producto key={i.toString()} publicacion={producto} />
-              ))}
-            </div>
           </div>
         </section>
 
