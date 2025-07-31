@@ -91,7 +91,7 @@ export default function ProductDetailPage() {
         <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900/20 to-rose-900/20">
             <Navbar />
 
-            <main className="pt-20">
+            <main className="pt-20 xl:mx-52 2xl:mx-82 mx-0 sm:mx-10 md:mx-40 ">
                 <div className="container mx-auto px-4 py-8">
                     {/* Breadcrumbs */}
                     <nav className="flex items-center space-x-2 text-sm text-gray-400 mb-8">
@@ -105,7 +105,7 @@ export default function ProductDetailPage() {
                         <ChevronRight className="w-4 h-4" />
                         <span className="text-gray-300">{product.titulo}</span>
                     </nav>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-6">
                         {/* Product Gallery */}
                         <div>
                             <ProductGallery imagenes={product.imagenes} productTitle={product.titulo} />
@@ -124,18 +124,14 @@ export default function ProductDetailPage() {
                             </div>
                             <h1 className="text-3xl font-bold text-white mb-2">{product.titulo}</h1>
                             <p className="text-lg text-gray-300">{product.subtitulo}</p>
-
-
-                        </div>
-
-                        {/* Categories */}
-                        <div className="flex flex-wrap gap-2">
                             {product.categorias.map(({ categoria }) => (
                                 <Badge key={categoria?.id} className="bg-rose-500/20 text-rose-400 border-rose-500/30">
                                     {categoria?.nombre}
                                 </Badge>
                             ))}
+
                         </div>
+
 
                         {/* Variant Selector */}
                         <VariantSelector
@@ -150,12 +146,11 @@ export default function ProductDetailPage() {
                                 asChild
                                 className="w-full  text-white  "
                                 variant="default"
-                                disabled={(!!selectedVariant && product.variantes.length > 1) || (product.estado)}
+
                             >
                                 <Link href={`https://wa.me/59169848691?text=Hola, estoy interesado en el producto: ${product.titulo} - ${window.location.href}`} target="_blank">
                                     <Phone className="size-4" />
-                                    {!product.estado ? "Solicitar compra"
-                                        : "Selecciona una variante"}
+                                    Enviar mensaje a WhatsApp
                                 </Link>
                             </Button>
 
