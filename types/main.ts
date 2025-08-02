@@ -62,7 +62,6 @@ export type Publicacion = {
   url: string;
   estado: boolean;
   creadoEn: string;
-
   imagenes: Imagen[];
   caracteristicas: Caracteristica[];
   opciones: Opcion[];

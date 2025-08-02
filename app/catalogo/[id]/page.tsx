@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import ProductDetailPage from './client'
+import { Publicacion } from '@/types/main'
 
 const getProducto = async (id: string) => {
     return await fetch(`https://uayua.com/uayua/api/publicaciones/get?url=${id}&fields=id,titulo,imagenes,subtitulo,colecciones,caracteristicas,estado,variantes:valores,opciones,opciones:valores,opciones:id,variantes:id,variantes:titulo,variantes:estado,variantes:precio,descripcion,categorias:categoria`, {
@@ -16,7 +17,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
     try {
         const response = await getProducto(id)
-        const producto = await response.json()
+        const producto = await response.json() as Publicacion;
 
         if (!producto || !producto.titulo) {
             return {
@@ -29,7 +30,6 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
         const descripcion = producto.descripcion || producto.subtitulo || `Descubre ${titulo} en nuestra tienda online.`
         const imagenPrincipal = producto.imagenes?.[0].url
         const precio = producto.variantes?.[0]?.precio || null
-
         return {
             title: `${titulo} | Neobo`,
             description: descripcion,
@@ -46,15 +46,17 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
                 title: titulo,
                 description: descripcion,
                 type: 'article',
-                url: `https://neobo.vercel.app/producto/${id}`,
-                images: imagenPrincipal ? [
-                    {
-                        url: imagenPrincipal,
-                        width: 800,
-                        height: 600,
-                        alt: titulo,
-                    }
-                ] : [],
+                url: `https://neobo.vercel.app/catalogo/${id}`,
+                images:
+                {
+                    url: imagenPrincipal,
+                    width: 800,
+                    height: 600,
+                    alt: titulo,
+                    protocol: "https",
+                    href: imagenPrincipal
+                }
+                ,
                 siteName: 'Neobo',
                 locale: 'es_ES',
             },
@@ -73,9 +75,9 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
             other: {
                 'product:price:amount': precio?.toString() || '',
                 'product:price:currency': 'USD', // Ajusta según tu moneda
-                'product:availability': producto.estado === 'activo' ? 'in stock' : 'out of stock',
+                'product:availability': producto.estado ? 'in stock' : 'out of stock',
                 'product:brand': 'Neobo', // Ajusta según corresponda
-                'product:category': producto.categorias?.[0]?.categoria || '',
+                'product:category': producto.categorias.at(0)?.categoria?.nombre || '',
             },
 
             // Canonical URL
@@ -85,10 +87,10 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
             // Robots
             robots: {
-                index: producto.estado === 'activo',
+                index: producto.estado,
                 follow: true,
                 googleBot: {
-                    index: producto.estado === 'activo',
+                    index: producto.estado,
                     follow: true,
                 },
             },
