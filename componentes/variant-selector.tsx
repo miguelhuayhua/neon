@@ -3,8 +3,8 @@
 import { useState, useEffect, useRef } from "react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
 import { Opcion, Variante } from "@/types/main"
+import Image from "next/image"
 
 interface VariantSelectorProps {
   opciones: Opcion[]
@@ -50,10 +50,12 @@ export default function VariantSelector({ opciones, variantes, onVariantChange }
   }, [selectedOptions, opciones, variantes, onVariantChange])
 
   const handleOptionChange = (opcionId: string, valorId: string) => {
-    setSelectedOptions((prev) => ({
-      ...prev,
-      [opcionId]: valorId,
-    }))
+    setSelectedOptions((prev) => {
+      return (({
+        ...prev,
+        [opcionId]: valorId,
+      }))
+    })
   }
 
   // Vista para productos sin opciones
@@ -65,7 +67,7 @@ export default function VariantSelector({ opciones, variantes, onVariantChange }
           {variantes.map((variante) => (
             <div className="flex text-md justify-between w-full items-center "
               key={variante.id}
-             
+
               onClick={() => {
                 if (variante.estado) {
                   setSelectedVariant(variante)
@@ -123,13 +125,20 @@ export default function VariantSelector({ opciones, variantes, onVariantChange }
       {/* Info de variante seleccionada */}
       {selectedVariant && (
         <div className="pt-3 w-full border-t border-gray-700">
-          <div className="flex items-center justify-between">
-            <div>
+          <div className="flex items-center justify-between gap-2">
+            <div className="p-2">
+              {
+                selectedVariant.imagen &&(
+                  <div className="w-40 h-40 mb-4 relative rounded-md overflow-hidden">
+                    <Image fill alt="Imagen de variante" className="object-cover" src={selectedVariant.imagen.url} />
+                  </div>
+                )
+              }
               <p className="text-white font-medium">{selectedVariant.titulo}</p>
               <p className="text-sm text-gray-400">{selectedVariant.estado ? "En stock" : "Agotado"}</p>
             </div>
             <div className="text-right">
-              <p className="text-2xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+              <p className="text-xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
                 Bs. {selectedVariant.precio.toFixed(2)}
               </p>
             </div>

@@ -3,7 +3,7 @@ import ProductDetailPage from './client'
 import { Publicacion } from '@/types/main'
 
 const getProducto = async (id: string) => {
-    return await fetch(`https://uayua.com/uayua/api/publicaciones/get?url=${id}&fields=id,titulo,imagenes,subtitulo,colecciones,caracteristicas,estado,variantes:valores,opciones,opciones:valores,opciones:id,variantes:id,variantes:titulo,variantes:estado,variantes:precio,descripcion,categorias:categoria`, {
+    return await fetch(`https://uayua.com/uayua/api/publicaciones/get?url=${id}&fields=id,titulo,imagenes,subtitulo,colecciones,caracteristicas,estado,variantes:valores,opciones,opciones:valores,opciones:id,variantes:id,variantes:titulo,variantes:estado,variantes:precio,descripcion,variantes:imagen,categorias:categoria`, {
         headers: {
             Authorization: `Bearer ${process.env.NEXT_PUBLIC_UAYUA_TOKEN}`,
             'Origin': 'https://neobo.vercel.app'

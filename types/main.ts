@@ -14,6 +14,7 @@ export type Imagen = {
   url: string;
   orden: number;
   creadoEn: string;
+  variantes: Variante[]
 };
 
 export type Caracteristica = {
@@ -35,6 +36,7 @@ export type Variante = {
   precio: number;
   creadoEn: string;
   estado: boolean;
+  imagen: Imagen
   valores: VarianteValor[];
 };
 
