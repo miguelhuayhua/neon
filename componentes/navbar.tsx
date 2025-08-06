@@ -44,8 +44,7 @@ export default function Navbar() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {[
-              { name: "Productos", href: "#productos" },
-              { name: "Personalizado", href: "#personalizado" },
+              { name: "Productos", href: "/#productos" },
               { name: "Nosotros", href: "/#nosotros" },
               { name: "Contacto", href: "/#contacto" },
             ].map((item, i) => (

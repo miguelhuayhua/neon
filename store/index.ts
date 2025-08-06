@@ -1,6 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { FLUSH, PAUSE, PERSIST, persistReducer, PURGE, REGISTER, REHYDRATE } from "redux-persist";
-import storage from "redux-persist/lib/storage";
+import storage from 'redux-persist/lib/storage'; // <- esto es correcto para web/localStorage
 
 import userReducer from "./reducers/user";
 
@@ -19,28 +19,22 @@ export const makeStore = ({ isServer }: { isServer: boolean }) => {
   if (isServer) {
     return configureStore({
       reducer: rootReducer,
-     
-    });
-  } else {
-    const persistConfig = {
-      key: "user",
-      whitelist: [ "user"],
-      storage,
-    };
 
-    const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-    return configureStore({
-      reducer: persistedReducer,
-       middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({
-          serializableCheck: {
-            // 👇 ignora acciones internas de redux-persist
-            ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-          },
-        }),
     });
   }
+
+  const persistedReducer = persistReducer({ key: "user", whitelist: ["user"], storage }, rootReducer);
+
+  return configureStore({
+    reducer: persistedReducer,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        serializableCheck: {
+          // 👇 ignora acciones internas de redux-persist
+          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        },
+      }),
+  });
 };
 
 // EXPORTA RootState con un truco:
