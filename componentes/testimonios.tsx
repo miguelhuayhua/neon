@@ -1,5 +1,6 @@
 import "keen-slider/keen-slider.min.css"
 import { useKeenSlider } from "keen-slider/react"
+import { Facebook } from "lucide-react"
 
 export default function Testimonials() {
   const [sliderRef] = useKeenSlider<HTMLDivElement>({
@@ -92,6 +93,7 @@ export default function Testimonials() {
       <div className="container mx-auto ">
         <div className="text-center mb-12">
           <h2 className="text-2xl md:text-3xl font-bold mb-3 animate-fade-in-up">Opiniones de Clientes</h2>
+          <Facebook /> <small>Extraído de Facebook</small>
           <p className="text-base text-gray-400 animate-fade-in-up animation-delay-200 font-medium">
             Descubre lo que dicen nuestros clientes sobre nuestros productos
           </p>

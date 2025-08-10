@@ -46,7 +46,7 @@ export default function HomePage() {
 
 
   useEffect(() => {
-    fetch('https://uayua.com/uayua/api/publicaciones/getall?fields=titulo,id,url,imagenes,caracteristicas,estado,variantes,colecciones,categorias:categoria', {
+    fetch('https://uayua.com/uayua/api/publicaciones/getall?fields=titulo,id,url,imagenes,caracteristicas,estado,variantes,coleccion,categorias:categoria', {
       method: "GET",
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_UAYUA_TOKEN}`

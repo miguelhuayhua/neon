@@ -20,7 +20,6 @@ interface ProductCardProps {
 export default function ProductCard({ publicacion }: ProductCardProps) {
     const [isHovered, setIsHovered] = useState(false)
     const [imageError, setImageError] = useState(false)
-    console.log(publicacion.categorias)
     // Obtener la primera imagen ordenada
     const primaryImage = publicacion.imagenes.sort((a, b) => a.orden - b.orden)[0]
     const { favProducts } = useSelector((state: RootState) => state.user)
@@ -100,9 +99,9 @@ export default function ProductCard({ publicacion }: ProductCardProps) {
                             {!publicacion.estado && (
                                 <Badge className="bg-red-500/20 text-red-400 border-red-500/30 text-xs">Agotado</Badge>
                             )}
-                            {publicacion.colecciones.length > 0 && (
+                            {publicacion.coleccion && (
                                 <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30 text-xs">
-                                    {publicacion.colecciones[0].coleccion.nombre}
+                                    {publicacion.coleccion.nombre}
                                 </Badge>
                             )}
                         </div>

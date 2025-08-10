@@ -54,6 +54,7 @@ export type CategoriaPublicacion = {
 export type Coleccion = {
   id: string;
   nombre: string;
+  publicaciones?: Publicacion[]
 };
 
 export type Publicacion = {
@@ -70,8 +71,5 @@ export type Publicacion = {
   variantes: Variante[];
 
   categorias: CategoriaPublicacion[]
-
-  colecciones: {
-    coleccion: Coleccion;
-  }[];
+  coleccion: Coleccion
 };

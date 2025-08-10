@@ -17,9 +17,9 @@ import VariantSelector from "@/componentes/variant-selector"
 
 
 interface Props {
-    publicacion:Publicacion
+    publicacion: Publicacion
 }
-export default function ProductDetailPage({publicacion}:Props) {
+export default function ProductDetailPage({ publicacion }: Props) {
 
     const params = useParams()
     if (!params.id) return
@@ -93,11 +93,11 @@ export default function ProductDetailPage({publicacion}:Props) {
                         <div className="space-y-6">
                             {/* Header */}
                             <div className="flex items-center gap-2 mb-2">
-                                {product.colecciones.map(({ coleccion }) => (
-                                    <Badge key={coleccion.id} className="bg-blue-500/20 text-blue-400 border-blue-500/30">
-                                        {coleccion.nombre}
+                                {publicacion.coleccion && (
+                                    <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30 text-xs">
+                                        {publicacion.coleccion.nombre}
                                     </Badge>
-                                ))}
+                                )}
                                 {!product.estado && <Badge className="bg-red-500/20 text-red-400 border-red-500/30">Agotado</Badge>}
                             </div>
                             <h1 className="text-3xl font-bold text-white mb-2">{product.titulo}</h1>
