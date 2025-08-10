@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
         }
 
         const titulo = producto.titulo
-        const descripcion = producto.descripcion || producto.subtitulo || `Descubre ${titulo} en nuestra tienda online.`
+        const descripcion =  producto.subtitulo || `Descubre ${titulo} en nuestra tienda online.`
         const imagenPrincipal = producto.imagenes?.[0].url
         const precio = producto.variantes?.[0]?.precio || null
         return {
