@@ -77,7 +77,7 @@ export default function ProductDetailPage({ publicacion }: Props) {
                             Inicio
                         </Link>
                         <ChevronRight className="w-4 h-4" />
-                        <Link href="/ejemplos-productos" className="hover:text-rose-300 transition-colors">
+                        <Link href="/catalogo" className="hover:text-rose-300 transition-colors">
                             Productos
                         </Link>
                         <ChevronRight className="w-4 h-4" />

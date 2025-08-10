@@ -8,10 +8,7 @@ import type { RootState } from "@/store" // Manteniendo tu tipo RootState
 import { toggleFavProduct } from "@/store/reducers/user" // Manteniendo tu acción de Redux
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Heart, Search, ArrowLeft, Trash2, Star, TrendingUp, ShoppingCart, Zap, Grid3X3, List } from "lucide-react"
-import { Badge } from "@/components/ui/badge" // Añadido para el diseño
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select" // Añadido para el diseño
-import { Input } from "@/components/ui/input" // Añadido para el diseño
+import { Heart, Search, ArrowLeft, Trash2 } from "lucide-react"
 import ProductCard from "@/componentes/producto" // Manteniendo tu componente ProductCard
 
 // Asegúrate de que tu tipo Publicacion esté definido en "@/types/main"
@@ -44,7 +41,7 @@ const FavoritosPage = () => {
                 // Simular fetch de productos favoritos
                 // En tu caso real, harías una llamada a la API con los IDs
                 const response = await fetch(
-                    "https://uayua.com/uayua/api/publicaciones/getall?fields=titulo,imagenes,caracteristicas,variantes,colecciones,categorias",
+                    "https://uayua.com/uayua/api/publicaciones/getall?fields=titulo,imagenes,caracteristicas,variantes,coleccion,categorias",
                     {
                         method: "GET",
                         headers: {
@@ -209,7 +206,7 @@ const FavoritosPage = () => {
                             )}
                         </div>
                         <p className="text-gray-400 text-sm">
-                            {isLoading ? "Cargando..." : `${filteredProductos.length} de ${favProducts.length} productos`}
+                            {isLoading ? "Cargando..." : `${filteredProductos.length} de ${favProducts.length-1} productos`}
                         </p>
                     </motion.div>
 
@@ -258,7 +255,8 @@ const FavoritosPage = () => {
                                     }}
                                     className="border-pink-400 text-pink-400 hover:bg-pink-400 hover:text-black"
                                 >
-                                    Limpiar filtros
+                                    <Link href='/catalogo'>
+                                        Ir al catálogo</Link>
                                 </Button>
                             </motion.div>
                         )}
